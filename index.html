@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  
+
   <head>
     <meta charset="utf-8">
     <title>Mediathread</title>
@@ -14,8 +14,8 @@
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
-      </script>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+    </script>
     <![endif]-->
     <!-- Le fav  -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
@@ -23,14 +23,13 @@
     <!-- TODO: change this back to src="//ajax..." when not loading from local file:/// -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
-    if (typeof jQuery == 'undefined') {
-      document.write(unescape("%3Cscript src='assets/js/jquery-1.9.1.min.js' type='text/javascript'%3E%3C/script%3E"));
-    }
+      if (typeof jQuery == 'undefined') {
+        document.write(unescape("%3Cscript src='assets/js/jquery-1.9.1.min.js' type='text/javascript'%3E%3C/script%3E"));
+      }
     </script>
 
     <!--Has to be in head, to lazy load images.
-    Minimize in production. -->
-
+      Minimize in production. -->
     <script src="assets/js/lazyload.js"></script>
     <script src="assets/js/jRespond.js"></script>
     <script src="assets/js/spin.js"></script>
@@ -46,302 +45,339 @@
     <!-- History just for index page -->
     <script src="assets/js/jquery.history.js"></script>
     <script>
-        // History, and back button
-
-    $(function() {
-    jQuery.history.listen()
-      $('#nav .nav .scroll').click(function() {
-      $.history.push('index.html' + $(this).attr('href')); 
+      // History, and back button
+      $(function() {
+        jQuery.history.listen()
+        $('#nav .nav .scroll').click(function() {
+          $.history.push('index.html' + $(this).attr('href')); 
+        });
       });
-    });
     </script>
   </head>
 
   <!-- activate scrollspy -->
   <body id="top" data-spy="scroll" data-target=".navbar" data-offset="50">
 
-       <!-- Nav button -->
+      <!-- Nav button -->
       <a id="toggle"  class="closed">
         <i class="icon-reorder"></i>
-      </a>
+      </a> <!-- Nav button -->
 
       <!-- Navigation -->
       <header class="navbar navbar-fixed-top">
         <div class="inner-page">
           <h1 class="logo"><img src="assets/img/logo_mediathread_black_bg.png" /></h1>
-            <div id="nav">
-              <ul class="nav">
-                <li class="active"><a title="Home page" class="scroll brand-1" href="#home">Home</a></li>
-                <li><a title="How are people using it" class="scroll brand-1" href="#how">Use cases</a></li>
-                <li><a title="Who's using it" href="#who" class="scroll brand-4">Who's using it</a></li>
-                <li><a title="Features you'll love" href="#features" class="scroll brand-3">Features</a></li>
-                <li><a title="How it works" href="#how" class="scroll fadeto brand-4">How it works</a></li>
-                <li><a title="Get started" href="#getstarted" class="scroll brand-2">Get started</a></li>
-              </ul>
-            </div>
+          <div id="nav">
+            <ul class="nav">
+              <li class="active"><a title="Home page" class="scroll brand-1" href="#home">Home</a></li>
+              <li><a title="Who's using it" href="#who" class="scroll brand-4">Who's using it</a></li>
+              <li><a title="How are people using it" class="scroll brand-1" href="#cases">Use cases</a></li>
+              <li><a title="How it works" href="#how" class="scroll fadeto brand-4">How it works</a></li>
+              <li><a title="Get started" href="#getstarted" class="scroll brand-2">Get started</a></li>
+            </ul>
+          </div>
         </div> 
-      </header>
-      
+      </header> <!-- /Navigation -->
+
       <!-- Home Page -->
       <div id="home" class="page color-1">
         <div class="inner-page">
           <h2 class="page-headline large">Annotate and analyze multimedia</h2>
         </div>  
         <div class="row-fluid inner-page">
-<!--      <div class="span8 pull-right lazy-container">
-            <img class="lazy" alt="Looks great on every device" src="assets/img/pixel.png" data-original="assets/img/home.png"/>
-          </div>
- -->          
-          <div class="span8 pull-right">
-            <div class="btn-container figurette">
-              <img src="assets/img/video.png" alt="Play video" />
-               <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
-            </div>
-          </div>
-          <div class="span4 pull-right">
-            Mediathread is an innovative platform for exploration, analysis and organization of web-based multimedia content.
-            <ul class="big-list">
-              <li><i class="icon-search"></i> Discover</li>
-              <li><i class="icon-tags"></i> Annotate</li>
-              <li><i class="icon-edit"></i> Compose</li>
-              <li><i class="icon-share"></i> Publish</li>
-              <li><i class="icon-comments"></i> Discuss</li>
-            </ul>
-            <br />
-            <a href="#how" title="How are people using it?" class="scroll btn btn-centered"><i class="icon-caret-down"></i> Learn more</a>
-          </div>
+    <!--      <div class="span8 pull-right lazy-container">
+    <img class="lazy" alt="Looks great on every device" src="assets/img/pixel.png" data-original="assets/img/home.png"/>
+    </div>
+    -->          
+    <div class="span8 pull-right">
+      <div class="btn-container figurette">
+        <img src="assets/img/video.png" alt="Play video" />
+        <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
+      </div>
+    </div>
+    <div class="span4 pull-right">
+      Mediathread is an innovative platform for exploration, analysis and organization of web-based multimedia content.
+      <ul class="big-list">
+        <li><i class="icon-search"></i> Discover</li>
+        <li><i class="icon-tags"></i> Annotate</li>
+        <li><i class="icon-edit"></i> Compose</li>
+        <li><i class="icon-share"></i> Publish</li>
+        <li><i class="icon-comments"></i> Discuss</li>
+      </ul>
+      <br />
+      <a href="#how" title="How are people using it?" class="scroll btn btn-centered"><i class="icon-caret-down"></i> Learn more</a>
+    </div>
+    </div>
+    </div> 
+    <!-- /Home Page -->
+
+    <!-- Sign up -->
+    <div class="sign-up color-2 visible-desktop">
+      <div class="row-fluid inner-page">
+        <div class="span12">
+          <h4 class="pull-left">Ready to get started now? Create your first course in minutes!</h4>
+          <a href="http://mediathread.appsembler.com/user_accounts/registration_form" class="scroll btn pull-right" title="Register"> Get started</a>
         </div>
       </div>
+    </div> 
+    <!-- /Sign up -->
 
-      <!-- Sign up -->
-      <div class="sign-up color-2 visible-desktop">
-        <div class="row-fluid inner-page">
-          <div class="span12">
-            <h4 class="pull-left">Ready to get started now? Create your first course in minutes!</h4>
-            <a href="http://mediathread.appsembler.com/user_accounts/registration_form" class="scroll btn pull-right" title="Register"> Get started</a>
-          </div>
+    <!-- Who's using Mediathread -->
+    <div id="who" class="page color-3">
+      <div class="inner-page">
+        <h2 class="page-headline">Mediathread is in use today at over 25 Colleges and Universities, including ...</h2>
+      </div>
+      <div class="inner-page row-fluid">
+        <ul class="clients list-inline">
+          <li>Princeton University</li>
+          <li>Georgia Tech</li>
+          <li>Georgetown University</li>
+          <li>Pratt</li>
+          <li>Drmouth</li>
+          <li>Wellesley College</li>
+          <li>MIT</li>
+          <li>The New School</li>
+        </ul>
+      </div>
+    </div> 
+    <!-- /Who's using Mediathread -->
+
+    <!-- Sign up -->
+    <div class="sign-up color-2 visible-desktop">
+      <div class="row-fluid inner-page">
+        <div class="span12">
+          <h4 class="pull-left">Create your first course NOW!</h4>
+          <a href="http://mediathread.appsembler.com/user_accounts/registration_form" class="scroll btn pull-right" title="Register"> Get started</a>
         </div>
       </div>
+    </div> 
+    <!-- /Sign up -->
 
-      <!-- How are people using it? -->
-      <div id="how" class="page color-4">
-        <div class="inner-page">
-          <h2 class="page-headline">Mediathread is revolutionizing teaching in the classroom</h2>
-        </div>
-
-        <div class="inner-page row-fluid">
-          <ul class="features list-inline">
-            <li>
-              <h3><i class="icon-book"></i> Teacher Ed </h3>
-              <p>Professor Pappas Schattman uses Mediathread throughout her course on early childhood mathematics education. Read more...</p>
-            </li>
-            <li>
-              <h3><i class="icon-group"></i> Social Work</h3>
-              <p>At the Columbia University School of Social Work, first-year students use Mediathread to connect class readings to videos of clinical sessions and role-play assignments. Read more...</p>
-            </li>
-            <li>
-              <h3><i class="icon-film"></i> Film Study</h3>
-              <p>"Projecting the American Empire on Film" is a course at Barnard College in which Mediathread is used for a series of close reading exercises of film footage. Read more...</p>
-            </li>
-            </ul>
-        </div>
-                         
-        <div class="row-fluid inner-page">
-          <h2 class="page-headline">Features that you'll love</h2>
-
-          <div class="span6 lazy-container">
-            <img class="figurette lazy" src="assets/img/pixel.png" data-original="assets/img/mediathread_americanempire2.jpg" alt="Zombie ipsum" />
-          </div>
-          <div class="span6">           
-            <h3>DISCOVER</h3>
-            <p class="lead">Source materials are ‘imported’ from sites such as ARTstor, Flickr, YouTube, HathiTrust, Library of Congress collections, the Internet Archive, Vimeo, and museum galleries.</p>
-            <ul class="list-wide">
-              <li><i class="icon-youtube"></i> Youtube</li>
-              <li><i class="icon-flickr"></i> Flickr</li>
-              <li><i class="icon-pinterest"></i> Pinterest</li>
-              <li><i class="icon-vimeo"></i> Vimeo</li>
-              <li><i class="icon-dropbox"></i> Dropbox </li>
-            </ul>         
-          </div>
-        </div>
-
-        <hr>
-
-        <!-- Video -->
-        <div class="row-fluid inner-page">
-          <div class="span6 pull-right">
-            <div class="btn-container figurette">
-              <img src="assets/img/video.png" alt="Play video" />
-               <a class="lightbox iframe btn-play" target="_blank" href="http://vimeo.com/61693087"><i class="icon-play"></i></a>
+    <!-- Use cases-->
+    <div id="cases" class="page color-3">
+      <div class="inner-page">
+        <h2 class="page-headline">Mediathread is used in numerous courses and departments across Columbia University</h2>
+        <h4>These real-life examples show how Mediathread can be used to enhance teaching and learning in three different areas: teacher education, social work, and film study.</h4>
+      </div>
+      <div class="inner-page row-fluid">
+        <!-- Accordions -->
+        <div class="accordion" id="accordion">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                Analyzing student teaching at Teachers College  <i class="icon-plus"></i>
+              </a>
             </div>
-          </div>
-          <div class="span6 pull-right">
-              <h3>What's included?</h3>
-              <ul class="big-list">
-                <li><i class="icon-ok"></i> 24/7 Monitoring</li>
-                <li><i class="icon-play"></i> Backups</li>
-                <li><i class="icon-resize-full"></i> Upgrades</li>
-                <li><i class="icon-desktop"></i> Support</li>
-              </ul>
-            <br />
-            <a href="#download" class="scroll btn btn-centered"><i class="icon-plus"></i> Even more features</a>
-          </div>
-        </div>
-      </div> <!-- /Features --> 
-
-
-       <!-- Assets page -->
-      <div id="assets" class="page color-3">
-          <div class="inner-page">
-            <h2 class="page-headline">Page assets</h2>
-          </div>
-
-        <!-- Vectors -->
-        <div class="row-fluid inner-page">
-          <div class="span6 lazy-container">
-            <img class="figurette lazy" alt="Original vectors" src="assets/img/pixel.png" data-original="assets/img/responsive-vectors.png"  />
-          </div>
-          <div class="span6">
-            <h3>5 vectors included</h3>
-            <p class="lead">Zombie ipsum <abbr title="HyperText Markup Language" class="initialism">HTML</abbr> reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis.</p>
-            <p> The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro.. </p>
-          </div>
-        </div> <!-- /vectors -->
-
-        <hr>
-
-        <!-- Big laptop -->
-        <div class="row-fluid inner-page">
-          <div class="offset1 span10">
-            <div class="lazy-container lazy-large btn-container loaded">
-              <div class="btn-container">
-                <img class="figurette lazy " src="assets/img/laptop-blue@2x.png" data-original="assets/img/laptop-blue@2x.png" alt="view image in lightbox" style="display: inline;">
-                <a href="assets/img/superman.jpg" class="lightbox btn-play" target="_blank">
-                  <i class="icon-zoom-in"></i></a>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <b>Course:</b> The Development of Mathematical Thinking<br>
+                <b>Department:</b>  Human Development, Teachers College<br>
+                <b>Instructor:</b>  Sarantoula Sandra Pappas Schattman<br>
+                <br>
+                <p><b>Background:</b>  Professor Pappas Schattman uses Mediathread throughout her course on early childhood mathematics education, a course that focuses on theories of developmental psychology as well as teaching and assessment practices derived from research. A series of assignments integrating readings with video footage prepares students to discuss and debate interpretations of learning behavior.</p>
+                <p><b>Implementation:</b> For the first ten weeks of the course, students are required to post short essays about clinical interviewing techniques. They also post a weekly reflection on what they learned during in-class instruction. The final project for the course is a comprehensive essay in Mediathread. For this project, students first videotape themselves teaching and interviewing a child to assess the child's mathematical skills development. Then, in Mediathread, students write an analysis of their interaction with the child, using video to provide supporting evidence of class concepts. Professor Pappas Schattman then assesses her students' mastery of theory, teaching and interviewing skills, and interpretation of the video.</p>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Who's using Mediathread -->
-        <div id="who" class="page color-1">
-          <div class="inner-page">
-              <h2 class="page-headline">Who's using Mediathread?</h2>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                Clinical training for Social Work students <i class="icon-plus"></i>
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <b>Course:</b> Foundations of Social Work, Social Work Practice II<br>
+                <b>Department:</b>  School of Social Work<br>
+                <b>Instructor:</b>  Various<br>
+                <br>
+                <p><b>Background:</b>  PAt the Columbia University School of Social Work, first-year students take a core course entitled "Foundations of Social Work" in their first semester, followed by "Social Work Practice II" in their second semester. The curriculum emphasizes assessment, intervention, and evaluation; clinical applications of risk and resiliency theories to at-risk populations; and clinical issues with specific client populations. In both courses students use Mediathread to connect class readings to videos of clinical sessions and role-play assignments.</p>
+                <p><b>Implementation:</b> Students watch videos of clinical sessions and role-play assignments, clip segments, and make annotations. They then add the video annotations to essays in which they analyze theoretical models and clinical techniques and reflect on their own intervention methods. These multimedia essays encourage closer readings of clinician/patient interactions and improve students' evidence-based reasoning. Sharing completed multimedia essays with other social work students fosters group discussion and learning from peers.</p>
+              </div>
+            </div>
           </div>
-          <div class="inner-page row-fluid">
-              <ul class="clients list-inline">
-                <li><i class="icon-globe"></i> Columbia University</li>
-                <li><i class="icon-heart"></i> MIT</li>
-                <li><i class="icon-cloud"></i> Georgia Tech</li>
-                <li><i class="icon-cloud"></i> Dartmouth College</li>
-              </ul>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                Film, television, and cultural studies <i class="icon-plus"></i>
+              </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <b>Course:</b> Projecting the American Empire on Film<br>
+                <b>Department:</b>  History, Barnard College<br>
+                <b>Instructor:</b>  Seth Fein<br>
+                <br>
+                <p><b>Background:</b>  "Projecting the American Empire on Film" is a course at Barnard College for upper-level undergraduate and graduate students in the History department. The course explores the connection of audiovisual mass culture to the rise of the United States as a world power. Class readings and more than twenty films from the 1920's through the 1950's portray varying ideologies and help students deepen their understanding of historical contexts. Mediathread is used for a series of close reading exercises of film footage.</p>
+                <p><b>Implementation:</b> Students undertake close, careful inspection of assigned films through weekly, short-form "bullet-memos" of no more than 175 words. They are required to make at least two annotated selections per film and embed the selections into their essays to support their claims. Classmates share completed multimedia essays with each other, driving group discussion and learning from peers. Mediathread also allows the instructor gives multimedia feedback and individualized critique of student postings.</p>
+              </div>
+            </div>
           </div>
-        </div>
+        </div> 
+        <!-- /Accordion -->
+      </div>
+    </div>
+    </div> 
+    <!-- /Use cases-->
 
-      </div> <!-- /Assets page -->
-      <!-- About page -->
-      <div id="about" class="page color-4">
-        <div class="inner-page">
-          <h2 class="page-headline">How did Mediathread get started? Our story.</h2>
+    <!-- Sign up -->
+    <div class="sign-up color-2 visible-desktop">
+      <div class="row-fluid inner-page">
+        <div class="span12">
+          <h4 class="pull-left">Create your first course NOW!</h4>
+          <a href="http://mediathread.appsembler.com/user_accounts/registration_form" class="scroll btn pull-right" title="Register"> Get started</a>
         </div>
+      </div>
+    </div> 
+    <!-- /Sign up -->
+
+    <!-- Features -->
+    <div id="how" class="page color-4">
+      <div class="inner-page">
+        <h2 class="page-headline">How it works</h2>
+      </div>
+      <div class="inner-page">
         <div class="row-fluid inner-page">
-          <div class="span6  lazy-container">
-              <img class="figurette lazy" src="assets/img/pixel.png" data-original="assets/img/green-office.png" alt="Our workspace" />
+          <div class="span6">
+            <h3>Discover</h3>
+            <p><i class="icon-search icon-4x" style="display: inline; margin: 0 15px 2px 0; float: left;"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
           <div class="span6">
-            <h3>Zonbi tattered for solum.</h3>
-            <p class="lead">The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro.</p>
-            <p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium.</p>
+            <div class="btn-container figurette">
+              <img src="assets/img/video.png" alt="Play video" />
+              <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
+            </div>
           </div>
         </div>
 
         <hr>
 
-        <!-- Team -->
-        <div class="row-fluid inner-page team">
-          <h2 class="page-headline">Who are we?</h2>
+        <div class="row-fluid inner-page">
           <div class="span6">
-            <img class="pull-left" src="assets/img/cookies2.png" alt="A cookie" />
-            <h4>Jane Doe</h4>
-            <p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis.</p>
-            <ul>
-              <li><i class="icon-home"></i> <a href="prettystrap.com">http://prettystrap.com</a></li>
-              <li><i class="icon-envelope-alt"></i> <a href="info@email.com">info@email.com</a></li>
-              <li class="social">
-                <a href="#about"><i class="icon-facebook-sign"></i></a>
-                <a href="#about"><i class="icon-twitter"></i></a>
-                <a href="#about"><i class="icon-github-sign"></i></a>
-              </li>
-            </ul>
+            <div class="btn-container figurette">
+              <img src="assets/img/video.png" alt="Play video" />
+              <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
+            </div>
           </div>
-          <div class="span6 team2">
-            <img class="pull-left" src="assets/img/cookies.png" alt="A cookie" />
-            <h4>John Doe</h4>
-            <p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis.</p>
-            <ul>
-              <li><i class="icon-home"></i> <a href="prettystrap.com">http://prettystrap.com</a></li>
-              <li><i class="icon-envelope-alt"></i> <a href="info@email.com">info@email.com</a></li>
-              <li class="social">
-                <a href="#about"><i class="icon-facebook-sign"></i></a>
-                <a href="#about"><i class="icon-twitter"></i></a>
-                <a href="#about"><i class="icon-github-sign"></i></a>
-              </li>
-            </ul>
+          <div class="span6">
+            <h3>Annotate</h3>
+            <p><i class="icon-tags icon-4x" style="display: inline; margin: 0 15px 2px 0; float: left;"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
         </div>
-      </div>
 
+        <hr>
 
-      <!-- Contact Us -->
-      <div id="contact" class="page color-2">
-        <div class="inner-page">
-          <h2 class="page-headline">Get in touch and stay updated</h2>
-        </div>
-        <div class="row-fluid inner-page contact">
+        <div class="row-fluid inner-page">
           <div class="span6">
-            <h3>What's on your mind?</h3>
-            <textarea rows="6" placeholder="Your story"></textarea>
-            <input type="text" placeholder="your@e-mail.com"><br />
-            <input type="text" placeholder="Name"><br />
-            <button class="btn btn-centered">Contact us</button>
+            <h3>Compose</h3>
+            <p><i class="icon-edit icon-4x" style="display: inline; margin: 0 15px 2px 0; float: left;"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
           <div class="span6">
-            <div class="btn-container centered lazy-container text-center">
-              <img src="assets/img/pixel.png" class="lazy figurette" alt="Open the map"   data-original="assets/img/map.png"/>
-              <a class="lightbox iframe  btn-map" target="blank" title="Open google maps" href="https://maps.google.com/maps?q=1+Cambridge+Center+Cambridge+MA&amp;hl=en"><i class="pull-left icon-map-marker"></i><div>1 Cambridge Center<br />Cambridge, MA 02144</div></a>
+            <div class="btn-container figurette">
+              <img src="assets/img/video.png" alt="Play video" />
+              <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row-fluid inner-page">
+          <div class="span6">
+            <div class="btn-container figurette">
+              <img src="assets/img/video.png" alt="Play video" />
+              <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
+            </div>
+          </div>
+          <div class="span6">
+            <h3>Publish</h3>
+            <p><i class="icon-share icon-4x" style="display: inline; margin: 0 15px 2px 0; float: left;"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row-fluid inner-page">
+          <div class="span6">
+            <h3>Discuss</h3>
+            <p><i class="icon-comments icon-4x" style="display: inline; margin: 0 15px 2px 0; float: left;"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="span6">
+            <div class="btn-container figurette">
+              <img src="assets/img/video.png" alt="Play video" />
+              <a class="lightbox iframe btn-play" target="_blank" href="https://www.youtube.com/watch?v=NWNxuJ0MK3k"><i class="icon-play"></i></a>
             </div>
           </div>
         </div>
       </div>
+    </div> 
+    <!-- /Features -->
 
-      <!-- Newsletter -->
-      <div class="newsletter color-1">
-        <div class="inner-page row-fluid">
-          <div class="span4">
-            <h4><strong>Be cool</strong>, subscribe to get our latest news</h4>
-          </div>
-          <div class="span6">
-            <input type="email" placeholder="your@e-mail.com" name="EMAIL" class="subscribe">
-          </div>
-          <div class="span2">
-            <button type="submit"  class="btn pull-right subscribe">Subscribe</button>
+    <!-- Sign up -->
+    <div class="sign-up color-3 visible-desktop">
+      <div class="row-fluid inner-page">
+        <div class="span12">
+          <h4 class="pull-left">It's easy to use.  Get started TODAY!</h4>
+          <a href="http://mediathread.appsembler.com/user_accounts/registration_form" class="scroll btn pull-right" title="Register"> Get started</a>
+        </div>
+      </div>
+    </div> 
+    <!-- /Sign up -->
+
+    <!-- Contact Us -->
+    <div id="contact" class="page color-2">
+      <div class="inner-page">
+        <h2 class="page-headline">Get in touch and stay updated</h2>
+      </div>
+      <div class="row-fluid inner-page contact">
+        <div class="span6">
+          <h3>What's on your mind?</h3>
+          <textarea rows="6" placeholder="Your story"></textarea>
+          <input type="text" placeholder="your@e-mail.com"><br />
+          <input type="text" placeholder="Name"><br />
+          <button class="btn btn-centered">Contact us</button>
+        </div>
+        <div class="span6">
+          <div class="btn-container centered lazy-container text-center">
+            <img src="assets/img/pixel.png" class="lazy figurette" alt="Open the map"   data-original="assets/img/map.png"/>
+            <a class="lightbox iframe  btn-map" target="blank" title="Open google maps" href="https://maps.google.com/maps?q=1+Cambridge+Center+Cambridge+MA&amp;hl=en"><i class="pull-left icon-map-marker"></i><div>1 Cambridge Center<br />Cambridge, MA 02144</div></a>
           </div>
         </div>
       </div>
+    </div> 
+    <!-- /Contact Us -->
 
-      <!-- The footer, social media icons, and copyright -->        
-      <footer class="page color-5">
-        <div class="inner-page row-fluid">
-          <div class="span6 social">
-            <a href="#contact"><i class="icon-twitter"></i></a>
-            <a href="#contact"><i class="icon-github-sign"></i></a>    
-            <a href="#contact"><i class="icon-facebook-sign"></i></a>
-            <a href="#contact"><i class="icon-google-plus-sign"></i></a>
-          </div>
-          <div class="span6 text-right copyright">
-            &copy; 2013 <a  href="http://appsembler.com"  title="Managed hosting of Open Source software">Appsembler</a> | All Rights Reserved |  <a href="#top"   title="Go to top" class="scroll">To top <i class="icon-caret-up"></i></a>
-          </div>
+    <!-- Newsletter -->
+    <div class="newsletter color-1">
+      <div class="inner-page row-fluid">
+        <div class="span4">
+          <h4><strong>Be cool</strong>, subscribe to get our latest news</h4>
         </div>
-      </footer>
+        <div class="span6">
+          <input type="email" placeholder="your@e-mail.com" name="EMAIL" class="subscribe">
+        </div>
+        <div class="span2">
+          <button type="submit"  class="btn pull-right subscribe">Subscribe</button>
+        </div>
+      </div>
+    </div> 
+    <!-- /Newsletter -->
+
+    <!-- The footer, social media icons, and copyright -->        
+    <footer class="page color-5">
+      <div class="inner-page row-fluid">
+        <div class="span6 social">
+          <a href="#contact"><i class="icon-twitter"></i></a>
+          <a href="#contact"><i class="icon-github-sign"></i></a>    
+          <a href="#contact"><i class="icon-facebook-sign"></i></a>
+          <a href="#contact"><i class="icon-google-plus-sign"></i></a>
+        </div>
+        <div class="span6 text-right copyright">
+          &copy; 2013 <a  href="http://appsembler.com"  title="Managed hosting of Open Source software">Appsembler</a> | All Rights Reserved |  <a href="#top"   title="Go to top" class="scroll">To top <i class="icon-caret-up"></i></a>
+        </div>
+      </div>
+    </footer> 
+    <!-- /The footer, social media icons, and copyright -->   
 
   </body>
 </html>
