@@ -249,6 +249,7 @@ FLOWPLAYER_SWF_LOCATION = \
 
 DEFAULT_COLLABORATION_POLICY = policies.InstructorManaged()
 
+# django-allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
@@ -264,9 +265,12 @@ CUSTOMERIO_API_KEY = ''
 MAILCHIMP_API_KEY = ''
 MAILCHIMP_REGISTRATION_LIST_ID = ''
 
-
+# The sample course that all registered users are added to
 SAMPLE_COURSE_ID = 2
 
+# URLs that appear in the header and footer
+ABOUT_URL = "http://www.getmediathread.com/"
+HELP_URL = "http://support.appsembler.com/knowledgebase/topics/39118-mediathread"
 
 # this gets around Django 1.2's stupidity for commenting
 # we're already checking that the request is from someone in the class
@@ -275,9 +279,6 @@ def no_reject(request, reason):
     return None
 
 CSRF_FAILURE_VIEW = no_reject
-
-HELP_URL = "http://support.appsembler.com/knowledgebase/topics/39118-mediathread"
-
 
 # if you add a 'deploy_specific' directory
 # then you can put a settings.py file and templates/ overrides there

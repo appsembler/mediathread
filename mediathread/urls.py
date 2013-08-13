@@ -48,7 +48,8 @@ auth_urls = (r'^accounts/', include('allauth.urls'))
 urlpatterns = patterns(
     '',
 
-    (r'^help', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
+    (r'^about$', 'django.views.generic.simple.redirect_to', {'url': settings.ABOUT_URL}),
+    (r'^help$', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
 
     (r'^crossdomain.xml$', 'django.views.static.serve',
      {'document_root': os.path.abspath(os.path.dirname(__file__)),
