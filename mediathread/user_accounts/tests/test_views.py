@@ -129,10 +129,10 @@ class RegistrationTest(TestCase):
             'first_name': 'Appsembler',
             'last_name': 'Rocks',
             'position_title': 'professor',
-            'hear_mediathread_from': 'conference',
             'subscribe_to_newsletter': 'on',
+            'hear_mediathread_from': 'conference',
             'agree_to_term': 'on',
-            'organization': 'TestCompany Inc.'
+            'organization': 'TestCompany',
         }
 
     def test_registration_get(self):
@@ -148,7 +148,9 @@ class RegistrationTest(TestCase):
         user = User.objects.get(email="testmediathread@appsembler.com")
         self.assertEquals(user.get_full_name(), "Appsembler Rocks")
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEquals(EmailConfirmation.objects.filter(email_address__email="testmediathread@appsembler.com").count(), 1)
-        self.assertEquals(EmailAddress.objects.filter(email="testmediathread@appsembler.com", verified=False).count(), 1)
+        self.assertEquals(EmailConfirmation.objects.filter(
+            email_address__email="testmediathread@appsembler.com").count(), 1)
+        self.assertEquals(EmailAddress.objects.filter(
+            email="testmediathread@appsembler.com", verified=False).count(), 1)
         sample_course = Course.objects.get(id=settings.SAMPLE_COURSE_ID)
         self.assertTrue(user.id in sample_course.group.user_set.values_list('id', flat=True))

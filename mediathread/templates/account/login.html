@@ -1,43 +1,49 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
    Please Login
 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" />
+{% endblock %}
+
 {% block content %}
 
-<div style="padding: 20px; margin: 0px 30px 0px 5px; width: 285px; border: black solid 1px; float: left;">
+<div style="padding: 20px; margin: 0 auto; width: 385px; border: black solid 1px;">
 
-<h1>Log In</h1>
-
-<div style="background-color: #CCCCCC; font-size: 85%; font-weight: bold; padding-left: 5px;">
-    {% if form.username.errors %}
-        <p>Please enter your username.</p>
-    {% else %}    
-        {% if form.password.errors %}
-            <p>Please enter your password.</p>
-        {% else %}                
-            {% if form.errors %}
-                <p>Please enter a correct username and password. Note that both fields are case-sensitive.</p>
-            {% endif %}
-        {% endif %}
-    {% endif %}
-</div>
-
-<form name="login_local" method="post" action=".">
+<form name="login_local" class="form-horizontal" id="login-form" method="post" action=".">
   {% csrf_token %}
-    <table>
-        <tr><td style="border: hidden"><label for="id_username">Username:</label></td><td style="border: hidden">{{ form.login }}</td></tr>
-        <tr><td style="border: hidden"><label for="id_password">Password:</label></td><td style="border: hidden">{{ form.password }}</td></tr>
-    </table>
-    <input type="submit" value="Log In" />
-    <a href="{% url registration-form %}">
-        <input type="button" value="Sign Up" />
-    </a>
+    <legend>Log in</legend>
+    <div class="control-group{% if form.login.errors %} error{% endif %}">
+      <label for="id_username" class="control-label">Username:</label>
+        <div class="controls">
+            {{ form.login }}
+            {% if form.login.errors %}
+                <span class="help-block">{{ form.login.errors.0 }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="control-group{% if form.password.errors %} error{% endif %}">
+        <label for="id_password" class="control-label">Password:</label>
+        <div class="controls">
+            {{ form.password }}
+            {% if form.password.errors %}
+                <span class="help-block">{{ form.password.errors.0 }}</span>
+            {% endif %}
+            {% if form.errors %}
+                <p class="text-error">Please enter a correct email address and password. Note that both fields are case-sensitive.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="submit" value="Log In" class="btn btn-large btn-success" />
+    </div>
+    <p>Don't have an account? <a href="{% url registration-form %}">Sign up here</a></p>
+
     <input type="hidden" name="next" value="{{ next|urlencode }}" />
 </form>
 
 </div>
-
-{% include "registration/description.html" %}
 
 {% endblock %}

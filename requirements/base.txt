@@ -64,3 +64,4 @@ requirements/src/oauthlib-0.5.0.tar.gz
 requirements/src/requests-oauthlib-0.3.2.tar.gz
 requirements/src/django-allauth-0.12.0.tar.gz
 requirements/src/django-autocomplete-light-1.2.3.tar.gz
+requirements/src/django-crispy-forms-1.3.2.tar.gz

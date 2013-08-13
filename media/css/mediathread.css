@@ -1001,9 +1001,11 @@ div.button-form form, div.button-form.inline form {
 
 
 /* LOGIN PAGE */
+/*
 #id_username, #id_password {
-    width: 125px;    
+    width: 125px;
 }
+*/
 
 #introduction {
     text-align: left; 
@@ -4131,7 +4133,7 @@ div.invite-students-form input[type=submit] {
     float: left;
     margin-right: 10px;
     margin-top: 10px;
-    width: 125px;
+    width: 150px;
 }
 
 
@@ -4158,4 +4160,44 @@ ul.messagelist li.warning{
 
 ul.messagelist li.error{
     background-image: url(/site_media/img/icons/icon_error.gif);
+}
+
+form .form-actions {
+    background-color: transparent;
+    padding-left: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-actions a.btn {
+    margin-left: 5px;
+    font-weight: normal;
+    color: #000;
+}
+
+.text-error {
+    color: #b94a48;
+}
+
+#login-form legend {
+    font-size: 2.142em;
+}
+
+#login-form .control-label {
+    width: 80px;
+}
+
+#login-form .controls {
+    margin-left: 100px;
+}
+
+#login-form .form-actions {
+    border-top: none;
+    padding-top: 0;
+    padding-left: 100px;
+    margin-bottom: 20px;
+}
+
+#login-form input[type=submit] {
+    float: left;
 }
