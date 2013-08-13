@@ -1,6 +1,7 @@
-from django.views.generic.edit import FormView
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.generic.edit import FormView
 
 from mediathread.user_accounts.models import RegistrationModel
 from .models import CourseInformation
@@ -37,7 +38,9 @@ class CourseCreateFormView(FormView):
         course.add_member(self.request.user, faculty=True)
 
         self.request.session['ccnmtl.courseaffils.course'] = course.course
-
+        messages.success(self.request,
+                         "You've successfully created a new course: {0}".format(course_title),
+                         fail_silently=True)
         return super(CourseCreateFormView, self).form_valid(form)
 
     def get_initial(self):

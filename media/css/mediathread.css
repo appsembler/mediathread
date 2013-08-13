@@ -4133,3 +4133,29 @@ div.invite-students-form input[type=submit] {
     margin-top: 10px;
     width: 125px;
 }
+
+
+ul.messagelist {
+    float: left;
+    width: 100%;
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+ul.messagelist li {
+    font-size: 12px;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    background: #ffc url(/site_media/img/icons/icon_success.gif) 5px .3em no-repeat;
+}
+
+ul.messagelist li.warning{
+    background-image: url(/site_media/img/icons/icon_alert.gif);
+}
+
+ul.messagelist li.error{
+    background-image: url(/site_media/img/icons/icon_error.gif);
+}

@@ -1,8 +1,10 @@
 import customerio
-from django.views.generic.edit import FormView
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.template.defaultfilters import pluralize
 from django.utils.html import linebreaks
+from django.views.generic.edit import FormView
 from allauth.account.forms import SignupForm
 from allauth.account.utils import send_email_confirmation
 from allauth.account.utils import complete_signup
@@ -36,7 +38,7 @@ class ConfirmEmailView(AllauthConfirmEmailView):
         email_address = self.get_object().email_address
         user_to_login = User.objects.get(email=email_address.email)
         login_user(self.request, user_to_login)
-
+        messages.success(self.request, "You've successfully activated your account.", fail_silently=True)
         return super(ConfirmEmailView, self).post(*args, **kwargs)
 
 
@@ -142,6 +144,11 @@ class InviteStudentsView(FormView):
                     invitor_email=form.cleaned_data['email_from'],
                     message=linebreaks(form.cleaned_data['message']),
                 )
+        student_count = len(emails)
+        messages.success(self.request,
+                         "You've successfully invited {0} student{1}.".format(
+                             student_count, pluralize(student_count)),
+                         fail_silently=True)
         return super(InviteStudentsView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
