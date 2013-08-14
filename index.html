@@ -36,6 +36,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/lightbox.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.jcarousel.min.js"></script>    
 
     <script src="assets/js/responsive-nav.js"></script>
 
@@ -52,7 +53,16 @@
           $.history.push('index.html' + $(this).attr('href')); 
         });
       });
+
+      jQuery(document).ready(function() {
+          jQuery('.jcarousel').jcarousel({
+            wrap: 'circular',
+            itemFallbackDimension: 300
+          });
+      });
     </script>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jcarousel-skin.css" />
   </head>
 
   <!-- activate scrollspy -->
@@ -130,16 +140,21 @@
         <h2 class="page-headline">Mediathread is in use today at over 25 Colleges and Universities, including ...</h2>
       </div>
       <div class="inner-page row-fluid">
-        <ul class="clients list-inline">
-          <li>Princeton University</li>
-          <li>Georgia Tech</li>
-          <li>Georgetown University</li>
-          <li>Pratt</li>
-          <li>Drmouth</li>
-          <li>Wellesley College</li>
-          <li>MIT</li>
-          <li>The New School</li>
-        </ul>
+        <div class="jcarousel jcarousel-skin-tango">
+          <ul>
+            <li><img src="assets/img/carousel/asu_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/auc_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/bard_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/bloomfield_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/bucknell_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/byu_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/mit_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/pratt_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/princeton_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/u-denver_logo_185x48.png" width="185" height="48" alt="" /></li>
+            <li><img src="assets/img/carousel/wellesley_logo_185x48.png" width="185" height="48" alt="" /></li>
+          </ul>
+        </div>
       </div>
     </div> 
     <!-- /Who's using Mediathread -->
@@ -374,18 +389,24 @@
     <!-- Newsletter -->
     <div class="newsletter color-1">
       <div class="inner-page row-fluid">
+        <!-- Begin MailChimp Signup Form -->
+        <form action="http://appsembler.us1.list-manage1.com/subscribe/post?u=cd9e18f659a2d89263cbef294&amp;id=5370087a9b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
         <div class="span4">
           <h4><strong>Be cool</strong>, subscribe to get our latest news</h4>
         </div>
         <div class="span6">
-          <input type="email" placeholder="your@e-mail.com" name="EMAIL" class="subscribe">
+          <input type="email" value="" name="EMAIL" class="subscribe" id="mce-EMAIL" placeholder="your@e-mail.com" required>
         </div>
         <div class="span2">
-          <button type="submit"  class="btn pull-right subscribe">Subscribe</button>
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn pull-right subscribe">
         </div>
+            </form>
+                <!--End mc_embed_signup-->
+
       </div>
     </div> 
     <!-- /Newsletter -->
+
 
     <!-- The footer, social media icons, and copyright -->        
     <footer class="page color-5">
