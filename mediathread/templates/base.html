@@ -7,10 +7,12 @@
     	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
     	<title>Mediathread {% block title %}&mdash; Switch Course{% endblock %}</title>
 
+        {% if not settings.DEBUG %}
         <script type="text/javascript">
             var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
             analytics.load("3ts2xu858r");
         </script>
+        {% endif %}
         
         <script type="text/javascript" src="{% static 'jquery/js/jquery-1.8.3.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'jquery/js/jquery-ui-1.9.1.custom.min.js' %}"></script>
@@ -246,28 +248,6 @@
         <script type="text/javascript" src="{% static 'js/app/projects/projectpanel.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/app/projects/projectlist.js' %}"></script>
     
-        {% if not settings.DEBUG %}
-            <script>                
-                {% if settings.GOOGLE_ANALYTICS_ID %}
-                    var _gaq = _gaq || [];
-                    _gaq.push(['_setAccount', '{{settings.GOOGLE_ANALYTICS_ID}}']);
-                    _gaq.push(['_trackPageview']);
-            
-                    (function () {
-                        var ga = document.createElement('script');
-                        ga.type = 'text/javascript';
-                        ga.async = true;
-                        ga.src = ('https:' === document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0];
-                        s.parentNode.insertBefore(ga, s);
-                    })();
-                
-                    var analytics = new MediathreadAnalytics(_gaq);
-                {% endif %}
-            </script>
-        {% endif %}        
-           
-    
         <script type="text/javascript">
             jQuery(document).ready(function() {
                 // setup some ajax progress indicator
@@ -306,11 +286,12 @@
         
         {% block js %}{% endblock %}
     {% endcompress %}
-    {% if request.user.is_authenticated %}
-        <script>
+    {% if request.user.is_authenticated and not settings.DEBUG %}
+        <script type="text/javascript">
             analytics.identify("{{ request.user.email }}", {
-                email   : "{{ request.user.email }}",
-                name    : "{% public_name for request.user %}"
+                email: "{{ request.user.email }}",
+                firstName: "{{ request.user.first_name }}",
+                lastName: "{{ request.user.last_name }}"
             });
         </script>
     {% endif %}

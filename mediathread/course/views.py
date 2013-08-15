@@ -1,3 +1,4 @@
+import analytics
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -36,6 +37,16 @@ class CourseCreateFormView(FormView):
 
         # add user to that class as a faculty
         course.add_member(self.request.user, faculty=True)
+
+        analytics.track(
+            self.request.user.email,
+            "Created a course",
+            {
+                "course_name": course_title,
+                "predicted_student_num": course.student_amount,
+                "organization": course_organization_name
+            }
+        )
 
         self.request.session['ccnmtl.courseaffils.course'] = course.course
         messages.success(self.request,

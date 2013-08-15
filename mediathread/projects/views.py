@@ -1,3 +1,4 @@
+import analytics
 from courseaffils.lib import in_course, in_course_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -28,6 +29,18 @@ def project_create(request):
 
     project = Project(author=user, course=course, title="Untitled")
     project.save()
+
+    if request.POST.get('publish') == "Assignment":
+        event_type = "Created an Assignment"
+    else:
+        event_type = "Created a Composition"
+    analytics.track(
+        request.user.email,
+        event_type,
+        {
+            "course_name": course.title
+        }
+    )
 
     project.collaboration(request, sync_group=True)
 

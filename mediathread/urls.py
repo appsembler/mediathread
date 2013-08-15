@@ -1,3 +1,6 @@
+import os.path
+import analytics
+import autocomplete_light
 from django.conf import settings
 from django.conf.urls.defaults import url, patterns, include
 from django.contrib import admin
@@ -9,8 +12,6 @@ from mediathread.main.api import CourseResource, CourseSummaryResource
 from mediathread.projects.api import ProjectResource
 from mediathread.taxonomy.api import TermResource, VocabularyResource
 from tastypie.api import Api
-import os.path
-import autocomplete_light
 
 
 v1_api = Api(api_name='v1')
@@ -24,6 +25,8 @@ v1_api.register(VocabularyResource())
 
 autocomplete_light.autodiscover()
 admin.autodiscover()
+
+analytics.init(settings.SEGMENTIO_API_KEY)
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 bookmarklet_root = os.path.join(os.path.dirname(__file__),

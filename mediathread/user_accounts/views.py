@@ -1,3 +1,4 @@
+import analytics
 import customerio
 import textwrap
 from django.conf import settings
@@ -39,6 +40,7 @@ class ConfirmEmailView(AllauthConfirmEmailView):
         email_address = self.get_object().email_address
         user_to_login = User.objects.get(email=email_address.email)
         login_user(self.request, user_to_login)
+        analytics.track(email_address, "Activated account")
         messages.success(self.request, "You've successfully activated your account.", fail_silently=True)
         return super(ConfirmEmailView, self).post(*args, **kwargs)
 
@@ -103,13 +105,6 @@ class InviteStudentsView(FormView):
         emails = form.cleaned_data['student_emails']
         cio = customerio.CustomerIO(settings.CUSTOMERIO_SITE_ID,
                                     settings.CUSTOMERIO_API_KEY)
-        cio.identify(
-            id=self.request.user.email,
-            email=self.request.user.email,
-            type="Instructor",
-            first_name=self.request.user.first_name,
-            last_name=self.request.user.last_name,
-        )
         cio.track(
             customer_id=self.request.user.email,
             name="invited_student"
@@ -120,6 +115,13 @@ class InviteStudentsView(FormView):
                 id=email,
                 email=email,
                 type="Student"
+            )
+            analytics.identify(
+                email,
+                {
+                    "email": email,
+                    "type": "Student"
+                }
             )
             try:
                 user = User.objects.get(email=email)
@@ -146,6 +148,14 @@ class InviteStudentsView(FormView):
                     message=linebreaks(form.cleaned_data['message']),
                 )
         student_count = len(emails)
+        analytics.track(
+            self.request.user.email,
+            "Invited students",
+            {
+                "course_name": course.title,
+                "num_of_students": student_count
+            }
+        )
         messages.success(self.request,
                          "You've successfully invited {0} student{1}.".format(
                              student_count, pluralize(student_count)),

@@ -1,3 +1,4 @@
+import analytics
 from allauth.account.models import EmailAddress, EmailConfirmation
 from customerio import CustomerIO
 from django.test.utils import override_settings
@@ -14,8 +15,11 @@ from mediathread.user_accounts import autocomplete_light_registry
 from mediathread.user_accounts import forms
 
 mock_customerio = MagicMock(spec=CustomerIO)
+mock_analytics = MagicMock(spec=analytics)
 
 
+@patch("analytics.identify", mock_analytics)
+@patch("analytics.track", mock_analytics)
 @patch("customerio.CustomerIO", mock_customerio)
 class InviteStudentsTest(TestCase):
     fixtures = ['unittest_sample_course.json']
@@ -119,6 +123,8 @@ class InviteStudentsTest(TestCase):
         self.assertFormError(response, 'form', 'message', 'This field is required.')
 
 
+@patch("analytics.identify", mock_analytics)
+@patch("analytics.track", mock_analytics)
 class RegistrationTest(TestCase):
     fixtures = ['unittest_sample_course.json']
 

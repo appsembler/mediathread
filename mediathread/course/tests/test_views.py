@@ -1,8 +1,12 @@
+import analytics
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from courseaffils.models import Course
+from mock import MagicMock, patch
 
+mock_analytics = MagicMock(spec=analytics)
 
+@patch("analytics.track", mock_analytics)
 class CourseCreateTest(TestCase):
     fixtures = ['unittest_sample_course.json']
 

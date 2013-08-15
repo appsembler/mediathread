@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+import analytics
 from allauth.account.forms import SignupForm
 
 from courseaffils.models import Course
@@ -58,6 +59,17 @@ class RegistrationModel(models.Model):
             self.organization = organization
             self.user = signup_user
             self.save()
+
+            analytics.identify(
+                signup_user.email,
+                {
+                    'email': signup_user.email,
+                    'firstName': signup_user.first_name,
+                    'lastName': signup_user.last_name,
+                    'organization': organization,
+                }
+            )
+            analytics.track(signup_user.email, "Registered")
         else:
             self.signupform_error_msg = signup_form.errors
             return False
