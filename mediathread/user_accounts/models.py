@@ -8,23 +8,23 @@ from allauth.account.forms import SignupForm
 from courseaffils.models import Course
 from .utils import add_email_to_mailchimp_list
 
+HEAR_CHOICES = (
+    ('conference', 'Conference'),
+    ('web_search', 'Web Search'),
+    ('word_of_mouth', 'Word of mouth'),
+    ('other', 'Other')
+)
+POSITION_CHOICES = (
+    ('professor', 'Professor'),
+    ('student', 'Student'),
+    ('administrator', 'Administrator'),
+    ('instructional_technologist', 'Instructional Technologist'),
+    ('developer', 'Developer'),
+    ('other', 'Other')
+)
+
 
 class RegistrationModel(models.Model):
-    HEAR_CHOICES = (
-        ('conference', 'Conference'),
-        ('web_search', 'Web Search'),
-        ('word_of_mouth', 'Word of mouth'),
-        ('other', 'Other')
-    )
-    POSITION_CHOICES = (
-        ('professor', 'Professor'),
-        ('student', 'Student'),
-        ('administrator', 'Administrator'),
-        ('instructional_technologist', 'Instructional Technologist'),
-        ('developer', 'Developer'),
-        ('other', 'Other')
-    )
-
     user = models.OneToOneField(User, editable=True, null=True, related_name="registration_model")
     organization = models.ForeignKey('OrganizationModel')
     hear_mediathread_from = models.CharField("How did you hear about Mediathread?",
@@ -77,7 +77,14 @@ class RegistrationModel(models.Model):
         return signup_user
 
     def subscribe_mailchimp_list(self, list_id):
-        add_email_to_mailchimp_list(self.user.email, list_id, fname=self.user.first_name, lname=self.user.last_name)
+        mailchimp_fields = {
+            'title': dict(POSITION_CHOICES)[self.position_title],
+            'org': self.organization.name,
+            'hear': dict(HEAR_CHOICES)[self.hear_mediathread_from],
+            'fname': self.user.first_name,
+            'lname': self.user.last_name
+        }
+        add_email_to_mailchimp_list(self.user.email, list_id, **mailchimp_fields)
 
     def get_user(self):
         return self.user
