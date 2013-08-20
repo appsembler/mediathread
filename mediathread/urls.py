@@ -1,3 +1,6 @@
+import os.path
+import analytics
+import autocomplete_light
 from django.conf import settings
 from django.conf.urls.defaults import url, patterns, include
 from django.contrib import admin
@@ -9,7 +12,6 @@ from mediathread.main.api import CourseResource, CourseSummaryResource
 from mediathread.projects.api import ProjectResource
 from mediathread.taxonomy.api import TermResource, VocabularyResource
 from tastypie.api import Api
-import os.path
 
 
 v1_api = Api(api_name='v1')
@@ -21,8 +23,10 @@ v1_api.register(CourseSummaryResource())
 v1_api.register(TermResource())
 v1_api.register(VocabularyResource())
 
-
+autocomplete_light.autodiscover()
 admin.autodiscover()
+
+analytics.init(settings.SEGMENTIO_API_KEY)
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 bookmarklet_root = os.path.join(os.path.dirname(__file__),
@@ -31,7 +35,6 @@ bookmarklet_root = os.path.join(os.path.dirname(__file__),
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
-auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
 logout_page = (r'^accounts/logout/$',
                'django.contrib.auth.views.logout',
                {'next_page': redirect_after_logout})
@@ -41,9 +44,19 @@ if hasattr(settings, 'WIND_BASE'):
     logout_page = (r'^accounts/logout/$', 'djangowind.views.logout',
                    {'next_page': redirect_after_logout})
 
+## for testing
+auth_urls = (r'^accounts/', include('allauth.urls'))
+
 
 urlpatterns = patterns(
     '',
+
+    (r'^about/$', 'django.views.generic.simple.redirect_to', {'url': settings.ABOUT_URL}),
+    (r'^help/$', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
+    (r'^terms-of-use/$', direct_to_template,
+     {'template': 'main/terms-of-use.html'}),
+    (r'^privacy-policy/$', direct_to_template,
+     {'template': 'main/privacy-policy.html'}),
 
     (r'^crossdomain.xml$', 'django.views.static.serve',
      {'document_root': os.path.abspath(os.path.dirname(__file__)),
@@ -56,9 +69,11 @@ urlpatterns = patterns(
 
     (r'^comments/', include('django.contrib.comments.urls')),
 
+    auth_urls,
     logout_page,
 
-    auth_urls,  # see above
+    (r'^user_accounts/', include('mediathread.user_accounts.urls')),
+    (r'^course/', include('mediathread.course.urls')),
 
     (r'^contact/', login_required(direct_to_template),
      {'template': 'main/contact.html'}),
@@ -68,7 +83,7 @@ urlpatterns = patterns(
 
     (r'^admin/', admin.site.urls),
 
-    (r'^jsi18n', 'django.views.i18n.javascript_catalog'),
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': site_media_root}),
@@ -130,6 +145,8 @@ urlpatterns = patterns(
     url(r'^explore/redirect/$',
         'mediathread.assetmgr.views.source_redirect',
         name="source_redirect"),
+
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
 
     ### Public Access ###
     (r'', include('structuredcollaboration.urls')),

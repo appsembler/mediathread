@@ -1,3 +1,4 @@
+import analytics
 from datetime import datetime
 from django.conf import settings
 from django.contrib import comments
@@ -86,6 +87,14 @@ def discussion_create(request):
 
     disc_sc.content_object = new_threaded_comment
     disc_sc.save()
+
+    analytics.track(
+        request.user.email,
+        "Created a Discussion",
+        {
+            "course_name": request.course.title
+        }
+    )
 
     if not request.is_ajax():
         return HttpResponseRedirect("/discussion/%d/" %

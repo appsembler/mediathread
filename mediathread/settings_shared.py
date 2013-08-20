@@ -5,9 +5,12 @@
 # (see bottom)
 
 from courseaffils import policies
-import os.path
+import os
 import re
 import sys
+
+APP_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)))
+PROJECT_ROOT = os.path.join(APP_ROOT, '..')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -61,7 +64,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--with-coverage',
     ('--cover-package=mediathread.main,mediathread.djangosherd,'
-     'mediathread.assetmgr,mediathread.projects'),
+     'mediathread.assetmgr,mediathread.projects,mediathread.user_accounts,mediathread.course'),
 ]
 
 CACHE_BACKEND = 'locmem:///'
@@ -70,9 +73,22 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
+
 MEDIA_ROOT = "uploads/"
 MEDIA_URL = '/uploads/'
-STATIC_URL = '/media/'
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'collected_static')
+STATIC_URL = '/site_media/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'media'),
+)
 
 #appends a slash if nothing is found without a slash.
 APPEND_SLASH = True
@@ -88,7 +104,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
     'mediathread.main.views.django_settings',
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,6 +119,14 @@ MIDDLEWARE_CLASSES = (
     'courseaffils.middleware.CourseManagerMiddleware',
     'mediathread.main.middleware.AuthRequirementMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 ROOT_URLCONF = 'mediathread.urls'
@@ -120,6 +147,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.flatpages',
+    'django.contrib.messages',
     'django.contrib.markup',
     'sorl.thumbnail',
     'courseaffils',
@@ -143,11 +171,18 @@ INSTALLED_APPS = [
     'django_nose',
     'compressor',
     'django_jenkins',
-    'mediathread.taxonomy'
+    'mediathread.taxonomy',
+    'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'mediathread.user_accounts',
+    'autocomplete_light',
+    'mediathread.course',
+    'crispy_forms',
+
 ]
 
-COMPRESS_URL = "/site_media/"
-COMPRESS_ROOT = "media/"
 COMPRESS_PARSER = "compressor.parser.HtmlParser"
 
 THUMBNAIL_SUBDIR = "thumbs"
@@ -169,14 +204,16 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # users. we need to allow anonymous access to the login
 # page, and to static resources.
 
-ANONYMOUS_PATHS = ('/site_media/',
+ANONYMOUS_PATHS = ('/user_accounts/'
+                   '/site_media/',
                    '/accounts/',
                    '/admin/',
                    '/api/',
                    '/help/'
                    )
 
-NON_ANONYMOUS_PATHS = ('/asset/',
+NON_ANONYMOUS_PATHS = ('/user_accounts/invite_students/',
+                       '/asset/',
                        '/annotations/',
                        '/contact/',
                        '/yourspace/',
@@ -209,10 +246,37 @@ FORCE_LOWERCASE_TAGS = True
 # if you set this to a string, then bookmarklet can import from flickr
 DJANGOSHERD_FLICKR_APIKEY = None
 FLOWPLAYER_SWF_LOCATION = \
-    "http://releases.flowplayer.org/swf/flowplayer-3.2.2.swf"
+    "https://releases.flowplayer.org/swf/flowplayer-3.2.16.swf"
 
 DEFAULT_COLLABORATION_POLICY = policies.InstructorManaged()
 
+# django-allauth settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
+ACCOUNT_USER_DISPLAY = 'mediathread.user_accounts.utils.display_user'
+
+# Customer.io keys
+CUSTOMERIO_SITE_ID = ''
+CUSTOMERIO_API_KEY = ''
+
+# Mailchimp arguments
+MAILCHIMP_API_KEY = ''
+MAILCHIMP_REGISTRATION_LIST_ID = ''
+
+# Segment.io key
+SEGMENTIO_API_KEY = ''
+
+# The sample course that all registered users are added to
+SAMPLE_COURSE_ID = 2
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'
+
+# URLs that appear in the header and footer
+ABOUT_URL = "http://www.getmediathread.com/"
+HELP_URL = "http://support.appsembler.com/knowledgebase/topics/39118-mediathread"
 
 # this gets around Django 1.2's stupidity for commenting
 # we're already checking that the request is from someone in the class

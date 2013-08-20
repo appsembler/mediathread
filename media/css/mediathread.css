@@ -742,21 +742,21 @@ ul#standardnav
 	clear: both;
 }
 
-#footer #logo_ccnmtl
+#footer #logo_appsembler
 {
     display: block;
     clear: right;
     float: right;
-    width: 119px;
-    height: 26px;
+    width: 200px;
+    height: 42px;
     overflow: hidden;
     margin: 1px 10px 0 0;
     padding: 0;
     border: 0;
-    background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
+    background: transparent url('../img/logo_appsembler.png') left top no-repeat;
 }
 
-#footer #logo_ccnmtl a
+#footer #logo_appsembler a
 {
     display: block;
     width: 119px;
@@ -1001,9 +1001,11 @@ div.button-form form, div.button-form.inline form {
 
 
 /* LOGIN PAGE */
+/*
 #id_username, #id_password {
-    width: 125px;    
+    width: 125px;
 }
+*/
 
 #introduction {
     text-align: left; 
@@ -4083,4 +4085,119 @@ div#taxonomy div.term-container div.term div.term-display div.actions {
 
 div#taxonomy div.term-container div.term:hover div.term-display div.actions {
     display: inline-block;
+}
+
+/** User registration/invitation **/
+div.invite-students-form {
+    width: 600px;
+}
+
+div.invite-students-form h2 {
+    border-bottom: 1px solid #EFEFEF;
+    margin: 0 10px 10px;
+    min-width: 900px;
+    padding: 10px 0;
+    width: 75%;
+}
+
+div.invite-students-form p, div.invite-students-form form {
+    margin: 20px;
+}
+
+div.invite-students-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+div.invite-students-form input {
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+div.invite-students-form input[type=checkbox] {
+    width: 3%;
+}
+
+div.invite-students-form textarea {
+    height: 200px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 97%;
+}
+
+div.invite-students-form select {
+    margin-bottom: 10px;
+}
+
+div.invite-students-form input[type=submit] {
+    float: left;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 150px;
+}
+
+
+ul.messagelist {
+    float: left;
+    width: 100%;
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+ul.messagelist li {
+    font-size: 12px;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    background: #ffc url(/site_media/img/icons/icon_success.gif) 5px .3em no-repeat;
+}
+
+ul.messagelist li.warning{
+    background-image: url(/site_media/img/icons/icon_alert.gif);
+}
+
+ul.messagelist li.error{
+    background-image: url(/site_media/img/icons/icon_error.gif);
+}
+
+form .form-actions {
+    background-color: transparent;
+    padding-left: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-actions a.btn {
+    margin-left: 5px;
+    font-weight: normal;
+    color: #000;
+}
+
+.text-error {
+    color: #b94a48;
+}
+
+#login-form legend {
+    font-size: 2.142em;
+}
+
+#login-form .control-label {
+    width: 80px;
+}
+
+#login-form .controls {
+    margin-left: 100px;
+}
+
+#login-form .form-actions {
+    border-top: none;
+    padding-top: 0;
+    padding-left: 100px;
+    margin-bottom: 20px;
+}
+
+#login-form input[type=submit] {
+    float: left;
 }
