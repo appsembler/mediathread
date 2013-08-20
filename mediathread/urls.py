@@ -53,6 +53,10 @@ urlpatterns = patterns(
 
     (r'^about/$', 'django.views.generic.simple.redirect_to', {'url': settings.ABOUT_URL}),
     (r'^help/$', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
+    (r'^terms-of-use/$', direct_to_template,
+     {'template': 'main/terms-of-use.html'}),
+    (r'^privacy-policy/$', direct_to_template,
+     {'template': 'main/privacy-policy.html'}),
 
     (r'^crossdomain.xml$', 'django.views.static.serve',
      {'document_root': os.path.abspath(os.path.dirname(__file__)),
