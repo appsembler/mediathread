@@ -101,6 +101,7 @@ urlpatterns = patterns(
 
     # Homepage
     (r'^$', 'mediathread.main.views.triple_homepage'),
+    url(r'^ios_bookmarklet/$', direct_to_template, kwargs={'template': 'ios_bookmarklet.html'}, name="ios_bookmarklet"),
     (r'^yourspace/', include('mediathread.main.urls')),
     (r'^_main/api/', include(v1_api.urls)),
 

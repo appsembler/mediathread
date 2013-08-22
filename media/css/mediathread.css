@@ -4202,6 +4202,14 @@ form .form-actions {
     float: left;
 }
 
+#ios-bookmarklet-code {
+    width: 80%;
+}
+
+#tabs-1 {
+    overflow: auto;
+}
+
 #class-members-list {
     margin-top: 30px;
 }
