@@ -5,6 +5,10 @@ from django import forms
 from .models import CourseInformation, STUDENT_AMOUNT_CHOICES
 
 
+class MemberActionForm(forms.Form):
+    user_id = forms.IntegerField()
+
+
 class CourseForm(forms.Form):
     title = forms.CharField(
         label="Course title",

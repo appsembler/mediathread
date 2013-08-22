@@ -43,9 +43,7 @@ class CourseInformation(models.Model):
             return self.course.title
 
     def __init__(self, *args, **kwargs):
-        if not 'organization_name' in kwargs:
-            raise OrganizationIsEmptyException("must specify course_name in CourseInformation")
-        else:
+        if 'organization_name' in kwargs:
             self.organization_name = kwargs.pop('organization_name')
         if 'title' in kwargs:
             self.title = kwargs.pop('title')

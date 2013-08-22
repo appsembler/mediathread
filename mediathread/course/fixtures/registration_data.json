@@ -1,0 +1,62 @@
+[
+    {
+    "pk": 1,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": true,
+      "user": 2,
+      "primary": true,
+      "email": "test_instructor@one.com"
+    }
+    },
+    {
+    "pk": 2,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": false,
+      "user": 3,
+      "primary": true,
+      "email": "test_student@one.com"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": true,
+      "user": 4,
+      "primary": true,
+      "email": "test_student@two.com"
+    }
+  },
+    {
+    "pk": 4,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": true,
+      "user": 5,
+      "primary": true,
+      "email": "test_student@three.com"
+    }
+  },
+    {
+    "pk": 5,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": false,
+      "user": 9,
+      "primary": true,
+      "email": "test@ta.com"
+    }
+  },
+    {
+    "pk": 6,
+    "model": "account.emailaddress",
+    "fields": {
+      "verified": true,
+      "user": 10,
+      "primary": true,
+      "email": "test_intructor@two.com"
+    }
+  }
+]

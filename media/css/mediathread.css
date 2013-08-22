@@ -4201,3 +4201,17 @@ form .form-actions {
 #login-form input[type=submit] {
     float: left;
 }
+
+#class-members-list {
+    margin-top: 30px;
+}
+
+#class-members-list td,th {
+    border-left: none;
+    border-right: none;
+}
+
+#class-members-list form {
+    float: left;
+    margin: 0 10px 0 0;
+}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" xmlns="http://www.w3.org/1999/html"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="dashboard-module-header">
+        <h2>Class members list</h2>
+    </div>
+
+    <div id="dashboard-module-body">
+        <table class="table" id="class-members-list">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Account status</th>
+                <th>Email address</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for instructor in faculty %}
+                 <tr class="info">
+                    <td>{{ instructor.get_full_name }}</td>
+                    <td>Instructor</td>
+                    <td>{{ instructor.status }}</td>
+                    <td><a href="mailto:{{ instructor.email }}">{{ instructor.email }}</a></td>
+                    <td>
+                    {% if instructor.status == "Invited" %}
+                        <form action="" method="post">
+                            <input type="hidden" name="user_id" value="{{ student.id }}" />
+                            <input type="submit" class="btn btn-info" value="Resend Invite" />
+                        </form>
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.get_full_name }}</td>
+                    <td>Student</td>
+                    <td>{{ student.status }}</td>
+                    <td><a href="mailto:{{ student.email }}">{{ student.email }}</a></td>
+                    <td>
+                        <form action="{% url promote_student %}" method="post">
+                            <input type="hidden" name="user_id" value="{{ student.id }}" />
+                            <input type="submit" class="btn btn-success" value="Promote" />
+                        </form>
+                        {% if student.status == "Invited" %}
+                            <form action="{% url resend_invite %}" method="post">
+                                <input type="hidden" name="user_id" value="{{ student.id }}" />
+                                <input type="submit" class="btn btn-info" value="Resend Invite" />
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>Total class members: {{ members_count }}</p>
+    </div>
+
+
+
+{% endblock %}

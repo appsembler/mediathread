@@ -1,4 +1,6 @@
 import analytics
+from django.contrib.auth.models import User
+from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from courseaffils.models import Course
@@ -37,3 +39,70 @@ class CourseCreateTest(TestCase):
         })
         self.assertFormError(response, 'form', 'title', 'This field is required.')
         self.assertFormError(response, 'form', 'organization', 'This field is required.')
+
+
+class MemberListTest(TestCase):
+    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+
+    def setUp(self):
+        self.client.login(username="test_instructor", password="test")
+
+    def test_list_of_all_class_members(self):
+        response = self.client.get(reverse('member_list'))
+        self.assertContains(response, '<td>Instructor</td>', count=2, html=True)
+        self.assertContains(response, '<td>Student</td>', count=4, html=True)
+        self.assertContains(response, 'Resend Invite', count=2)
+        self.assertContains(response, 'Promote', count=4)
+        self.assertContains(response, 'Total class members: 6')
+
+
+class PromoteStudentTest(TestCase):
+    fixtures = ['unittest_sample_course.json']
+
+    def test_promote_student(self):
+        self.client.login(username="test_instructor", password="test")
+        user = User.objects.get(id=3)
+        course = Course.objects.get(id=1)
+        self.assertFalse(user in course.faculty_group.user_set.all())
+        response = self.client.post(reverse("promote_student"), {
+            'user_id': 3
+        }, follow=True)
+        self.assertTrue(user in course.faculty_group.user_set.all(), response)
+        self.assertRedirects(response, reverse('member_list'))
+        self.assertContains(response, "Successfully promoted")
+
+    def test_promote_student_without_permissions(self):
+        self.client.login(username="test_student_two", password="test")
+        user = User.objects.get(id=3)
+        course = Course.objects.get(id=1)
+        self.assertFalse(user in course.faculty_group.user_set.all())
+        response = self.client.post(reverse("promote_student"), {
+            'user_id': 3
+        }, follow=True)
+        self.assertFalse(user in course.faculty_group.user_set.all(), response)
+        self.assertRedirects(response, reverse('member_list'))
+        self.assertContains(response, "You must be an instructor in this course to do that")
+
+
+class ResendInviteTest(TestCase):
+    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+
+    def setUp(self):
+        self.client.login(username="test_instructor", password="test")
+
+    def test_resend_invite_to_nonactive_user(self):
+        response = self.client.post(reverse("resend_invite"), {
+            'user_id': 3
+        }, follow=True)
+        user = User.objects.get(id=3)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertRedirects(response, reverse('member_list'))
+        self.assertContains(response, "successfully sent the activation email to {0}".format(user.email))
+
+    def test_resend_invite_to_active_user(self):
+        response = self.client.post(reverse("resend_invite"), {
+            'user_id': 4
+        }, follow=True)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertRedirects(response, reverse('member_list'))
+        self.assertContains(response, "User already activated his account.")
