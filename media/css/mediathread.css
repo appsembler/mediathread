@@ -4576,3 +4576,16 @@ form .form-actions {
     float: left;
     margin: 0 10px 0 0;
 }
+
+.students_count {
+    width: 140px;
+}
+
+.students_count span {
+    font-weight: bold;
+    float: right;
+}
+
+.invite-students-btn {
+    margin: 0 10px;
+}

@@ -63,6 +63,23 @@ class RemoveStudentFromClassView(MemberActionView):
 remove_student = RemoveStudentFromClassView.as_view()
 
 
+class DemoteFacultyView(MemberActionView):
+    def form_valid(self, form):
+        response = super(DemoteFacultyView, self).form_valid(form)
+        if self.course.faculty_group.user_set.filter(id=self.request.user.id).exists():
+            self.course.faculty_group.user_set.remove(self.user)
+            messages.success(
+                self.request,
+                "Successfully demoted {0} from the course {1}".format(
+                    self.user.get_full_name(), self.course.title
+                ))
+        else:
+            messages.error(self.request, "You must be an instructor in this course to do that.")
+        return response
+
+demote_faculty = DemoteFacultyView.as_view()
+
+
 class PromoteStudentView(MemberActionView):
     def form_valid(self, form):
         response = super(PromoteStudentView, self).form_valid(form)

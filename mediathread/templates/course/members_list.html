@@ -13,6 +13,7 @@
 
     <div class="dashboard-module-header">
         <h2>Class members list</h2>
+        <a class="btn invite-students-btn" href="{% url invite-students %}"><i class="icon-user"></i>Invite students</a>
     </div>
 
     <div id="dashboard-module-body">
@@ -39,6 +40,9 @@
                             <input type="hidden" name="user_id" value="{{ instructor.id }}" />
                         </form>
                     {% endif %}
+                    <form action="{% url demote_faculty %}" id="demote_faculty_{{ instructor.id }}" method="post">
+                        <input type="hidden" name="user_id" value="{{ instructor.id }}"/>
+                    </form>
                     <div class="btn-group">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             Action
@@ -46,6 +50,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             {% if instructor.status == "Invited" %}<li><a href="#" onclick="$('#resend_invite_{{ instructor.id }}').submit();return false;">Resend Invite</a></li>{% endif %}
+                            <li><a href="#" onclick="$('#demote_faculty_{{ instructor.id }}').submit();return false;">Demote Faculty</a></li>
                         </ul>
                     </div>
                     </td>
@@ -56,7 +61,7 @@
                 <tr>
                     <td>{{ student.get_full_name }}</td>
                     <td>Student</td>
-                    <td>{{ student.status }}</td>
+                    <td class="student_status">{{ student.status }}</td>
                     <td><a href="mailto:{{ student.email }}">{{ student.email }}</a></td>
                     <td>
                     <form action="{% url promote_student %}" id="promote_student_{{ student.id }}" method="post">
@@ -86,7 +91,17 @@
             {% endfor %}
             </tbody>
         </table>
-
-        <p>Total class members: {{ members_count }}</p>
+        <p class="students_count">Invited students: <span id="invited_count"></span><br>
+        Activated students: <span id="activated_count"></span><br>
+        Total students: <span id="members_count"></span><br>
+        <a href="{% url invite-students %}">Invite more students</a></p>
     </div>
+    <script type="text/javascript">
+        var invited = $(".student_status").filter(":contains(Invited)").length;
+        var activated = $(".student_status").filter(":contains(Activated)").length;
+        var total = invited + activated;
+        $("#invited_count").text(invited);
+        $("#activated_count").text(activated);
+        $("#members_count").text(total);
+    </script>
 {% endblock %}
