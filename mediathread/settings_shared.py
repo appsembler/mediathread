@@ -112,6 +112,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -197,6 +199,21 @@ CONTACT_US_DESTINATION = ""
 DATE_FORMAT = DATETIME_FORMAT = "g:i a, m/d/y"
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'django',
+    },
+    'johnny': {
+        'BACKEND': 'johnny.backends.locmem.LocMemCache',
+        'LOCATION': 'johnny',
+        'JOHNNY_CACHE': True,
+    }
+}
+CACHE_MIDDLEWARE_KEY_PREFIX = 'django'
+JOHNNY_MIDDLEWARE_KEY_PREFIX = 'johnny'
 
 
 # for AuthRequirementMiddleware. this should be a list of
