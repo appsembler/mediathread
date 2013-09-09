@@ -302,6 +302,7 @@ MESSAGE_LEVEL = message_constants.SUCCESS
 ABOUT_URL = "http://www.getmediathread.com/"
 HELP_URL = "http://support.appsembler.com/knowledgebase/topics/39118-mediathread"
 
+
 # this gets around Django 1.2's stupidity for commenting
 # we're already checking that the request is from someone in the class
 def no_reject(request, reason):
