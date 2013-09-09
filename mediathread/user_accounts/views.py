@@ -190,3 +190,28 @@ class InviteStudentsView(FormView):
 
 
 invite_students = InviteStudentsView.as_view()
+
+from allauth.account.views import LoginView as AllauthLoginView
+
+from django.shortcuts import redirect
+from tos.views import login
+from django.contrib.auth import forms as django_auth_forms
+from allauth.account.forms import LoginForm as allauth_login_form
+from django.contrib.auth.models import User
+
+class LoginView(AllauthLoginView):
+    """
+    Login view for redirect user to django-tos login view
+    """
+    def form_valid(self, form):
+        from pprint import pprint
+        pprint(self.request.POST)
+        
+        user_email = self.request.POST['login']
+        user_instance = User.objects.get(email=user_email) 
+        self.request.POST = self.request.POST.copy()
+        self.request.POST['username'] = user_instance.username
+        return login(self.request, template_name="account/login.html")
+
+login_view = LoginView.as_view()
+

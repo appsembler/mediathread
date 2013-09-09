@@ -57,7 +57,7 @@ class InviteStudentsForm(forms.Form):
         label="From"
     )
     student_emails = forms.CharField(
-        initial="student1@example.com\nstudent2@example.com",
+        initial="student1@example.edu\nstudent2@example.edu",
         widget=forms.Textarea(
             attrs={
                 'cols': 80,

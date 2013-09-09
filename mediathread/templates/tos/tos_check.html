@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% load url from future %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+{% if note %}
+    <h2>{{ note }}</note>
+{% else %}
+    <h2>Terms of Use as of {{ tos.created|date:"SHORT_DATE_FORMAT" }}</h2>
+{% endif %}
+
+<h2>Accept Terms of Use?</h2>
+
+<form method="post" action="{% url "tos_check_tos" %}">
+    {% csrf_token %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{next}}">
+    {% endif %}
+    <input type="submit" name="accept" class="btn btn-large btn-success" value="accept">
+    <input type="submit" name="accept" class="btn" value="reject">
+</form>
+
+{{ tos.content|safe }}
+
+<h2>Accept Terms of Use?</h2>
+
+<form method="post" action="{% url "tos_check_tos" %}">
+    {% csrf_token %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{next}}">
+    {% endif %}
+    <input type="submit" name="accept" class="btn btn-large btn-success" value="accept">
+    <input type="submit" name="accept" class="btn" value="reject">
+</form>
+
+{% endblock %}

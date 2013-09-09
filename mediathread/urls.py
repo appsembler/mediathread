@@ -1,17 +1,20 @@
 import os.path
 import analytics
 import autocomplete_light
+
 from django.conf import settings
 from django.conf.urls.defaults import url, patterns, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
+
 from djangosherd.api import SherdNoteResource
 from mediathread.api import TagResource
 from mediathread.assetmgr.api import AssetResource
 from mediathread.main.api import CourseResource, CourseSummaryResource
 from mediathread.projects.api import ProjectResource
 from mediathread.taxonomy.api import TermResource, VocabularyResource
+
 from tastypie.api import Api
 
 
@@ -52,8 +55,7 @@ urlpatterns = patterns(
 
     (r'^about/$', 'django.views.generic.simple.redirect_to', {'url': settings.ABOUT_URL}),
     (r'^help/$', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
-    (r'^terms-of-use/$', direct_to_template,
-     {'template': 'main/terms-of-use.html'}),
+
     (r'^privacy-policy/$', direct_to_template,
      {'template': 'main/privacy-policy.html'}),
 
@@ -68,8 +70,13 @@ urlpatterns = patterns(
 
     (r'^comments/', include('django.contrib.comments.urls')),
 
+    # tos
+    (r'^terms-of-use/', include('tos.urls')),
+    url(r'^accounts/login/', 'mediathread.user_accounts.views.login_view', {}, name="tos-login"),
+
     auth_urls,
     logout_page,
+
 
     (r'^user_accounts/', include('mediathread.user_accounts.urls')),
     (r'^course/', include('mediathread.course.urls')),
