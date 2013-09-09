@@ -79,8 +79,11 @@ class RegistrationFormView(FormView):
 
         # subscribe in mailchimp
         if registration.subscribe_to_newsletter:
-            registration.subscribe_mailchimp_list(
-                settings.MAILCHIMP_REGISTRATION_LIST_ID)
+            try:
+                registration.subscribe_mailchimp_list(
+                    settings.MAILCHIMP_REGISTRATION_LIST_ID)
+            except Exception as e:
+                print e
 
         return complete_signup(self.request, registration.get_user(),
                                app_settings.EMAIL_VERIFICATION,
