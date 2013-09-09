@@ -30,19 +30,17 @@
             <link rel="stylesheet" href="{% static 'css/mediathread.css' %}" media="screen" />
             {% block css %}{% endblock %}
         {% endcompress %}   
-        
-        {% block extrahead %}
-            <!--  For uncompress-able resources -->
-        {% endblock %}
+
         <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
-
-
         <script type="text/javascript">
             jQuery(function(){
                 $ = jQuery;
             });
         </script>
-        {% include "autocomplete_light/static.html" %}
+        {% block extrahead %}
+            <!--  For uncompress-able resources -->
+        {% endblock %}
+
     </head>
     
     {% course_role for request.user in course as role_in_course %}
