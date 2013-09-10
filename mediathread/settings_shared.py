@@ -121,6 +121,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.transaction.TransactionMiddleware',
     'courseaffils.middleware.CourseManagerMiddleware',
     'mediathread.main.middleware.AuthRequirementMiddleware',
+    'mediathread.course.middleware.CallToActionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
 )
 

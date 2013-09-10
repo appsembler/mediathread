@@ -68,6 +68,8 @@ urlpatterns = patterns(
 
     (r'^comments/', include('django.contrib.comments.urls')),
 
+    # custom login view
+    url(r'^accounts/login/$', 'mediathread.user_accounts.views.login_view', name='login_view'),
     auth_urls,
     logout_page,
 

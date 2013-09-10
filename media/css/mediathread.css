@@ -4589,3 +4589,23 @@ form .form-actions {
 .invite-students-btn {
     margin: 0 10px;
 }
+
+#call-to-action {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #1E77BD;
+}
+
+#call-to-action h2 {
+    margin: 0;
+    color: white;
+    display: inline;
+    vertical-align: middle;
+}
+
+#call-to-action a {
+    vertical-align: middle;
+    margin-left: 15px;
+    color: #FFF;
+    font-weight: normal;
+}

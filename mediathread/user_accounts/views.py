@@ -3,7 +3,7 @@ import customerio
 import textwrap
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import pluralize
 from django.utils.html import linebreaks
@@ -13,7 +13,10 @@ from allauth.account.utils import send_email_confirmation
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings
 from allauth.account.views import ConfirmEmailView as AllauthConfirmEmailView
+from allauth.account.views import LoginView as AllauthLoginView
+from courseaffils.models import Course
 from .forms import InviteStudentsForm, RegistrationForm
+from mediathread.user_accounts.models import RegistrationModel
 
 
 def login_user(request, user):
@@ -30,6 +33,25 @@ def login_user(request, user):
                 break
     if hasattr(user, 'backend'):
         return login(request, user)
+
+
+class LoginView(AllauthLoginView):
+    def form_valid(self, form):
+        response = super(LoginView, self).form_valid(form)
+        # check if professor is only in faculty group of sample course or in no course at all
+        registration_model_exists = RegistrationModel.objects.filter(user=self.request.user).exists()
+        sample_course_faculty_group_id = Course.objects.get(id=settings.SAMPLE_COURSE_ID).faculty_group_id
+        created_courses = Group.objects.exclude(
+            id=sample_course_faculty_group_id).filter(user=self.request.user, name__startswith="faculty_").exists()
+
+        # logs to the session,whether the user has created any courses, needed for call to action middleware
+        if registration_model_exists and not created_courses:
+            self.request.session['courses_created'] = False
+        else:
+            self.request.session['courses_created'] = True
+        return response
+
+login_view = LoginView.as_view()
 
 
 class ConfirmEmailView(AllauthConfirmEmailView):
@@ -151,6 +173,8 @@ class InviteStudentsView(FormView):
                     message=linebreaks(form.cleaned_data['message']),
                 )
         student_count = len(emails)
+        if student_count > 0:
+            self.request.session['no_students'] = False
         analytics.track(
             self.request.user.email,
             "Invited students",

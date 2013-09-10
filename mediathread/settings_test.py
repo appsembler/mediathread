@@ -38,6 +38,7 @@ INSTALLED_APPS = INSTALLED_APPS + LETTUCE_DJANGO_APP
 CUSTOMERIO_SITE_ID = ''
 CUSTOMERIO_API_KEY = ''
 ACCOUNT_LOGOUT_ON_GET = True
+SOUTH_TESTS_MIGRATE = False
 
 # Full run
 # time(./manage.py harvest --settings=mediathread.settings_test \
@@ -61,6 +62,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.transaction.TransactionMiddleware',
     'courseaffils.middleware.CourseManagerMiddleware',
     'mediathread.main.middleware.AuthRequirementMiddleware',
+    'mediathread.course.middleware.CallToActionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'mediathread.settings_test.ExceptionLoggingMiddleware'
 )

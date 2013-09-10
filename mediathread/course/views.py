@@ -52,6 +52,8 @@ class RemoveStudentFromClassView(MemberActionView):
         response = super(RemoveStudentFromClassView, self).form_valid(form)
         if self.course.faculty_group.user_set.filter(id=self.request.user.id).exists():
             self.course.group.user_set.remove(self.user)
+            if len(self.course.students) == 0:
+                self.request.session['no_students'] = True
             messages.success(
                 self.request,
                 "Successfully removed {0} from the course {1}".format(
@@ -174,6 +176,7 @@ class CourseCreateFormView(FormView):
             }
         )
 
+        self.request.session['courses_created'] = True
         self.request.session['ccnmtl.courseaffils.course'] = course.course
         messages.success(self.request,
                          "You've successfully created a new course: {0}".format(course_title),
