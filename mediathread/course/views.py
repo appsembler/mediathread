@@ -88,6 +88,12 @@ class PromoteStudentView(MemberActionView):
         response = super(PromoteStudentView, self).form_valid(form)
         if self.course.faculty_group.user_set.filter(id=self.request.user.id).exists():
             self.course.faculty_group.user_set.add(self.user)
+            analytics.identify(
+                self.user.email,
+                {
+                    'type': "Instructor",
+                }
+            )
             messages.success(
                 self.request,
                 "Successfully promoted {0} to faculty group on course {1}".format(
@@ -165,6 +171,12 @@ class CourseCreateFormView(FormView):
 
         # add user to that class as a faculty
         course.add_member(self.request.user, faculty=True)
+        analytics.identify(
+            self.request.user.email,
+            {
+                'type': "Instructor",
+            }
+        )
 
         analytics.track(
             self.request.user.email,
