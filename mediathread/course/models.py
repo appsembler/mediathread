@@ -33,8 +33,9 @@ class GroupTypeIncorrectException(Exception):
 class CourseInformation(models.Model):
     student_amount = models.IntegerField(choices=STUDENT_AMOUNT_CHOICES)
     organization = models.ForeignKey(OrganizationModel, null=True)
-    course = models.ForeignKey('courseaffils.Course', null=True)
+    course = models.OneToOneField('courseaffils.Course', null=True, related_name='course_information')
     sample_course = models.BooleanField(default=False)
+    invites_left = models.IntegerField(default=1)
 
     def __unicode__(self):
         if self.course:
@@ -84,9 +85,10 @@ class CourseInformation(models.Model):
             faculty_group.user_set.add(user)
 
     def save(self, force_insert=False, force_update=False, using=None):
-        course = self.create_course()
-        c_organization, org_created = OrganizationModel.objects.get_or_create(
-            name=self.organization_name)
-        self.course = course
-        self.organization = c_organization
+        if not self.course:
+            course = self.create_course()
+            c_organization, org_created = OrganizationModel.objects.get_or_create(
+                name=self.organization_name)
+            self.course = course
+            self.organization = c_organization
         super(CourseInformation, self).save(force_insert, force_update, using)

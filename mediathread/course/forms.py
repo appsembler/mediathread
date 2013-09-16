@@ -44,6 +44,7 @@ class CourseForm(forms.Form):
         widget = autocomplete_light.get_widgets_dict(CourseInformation)
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super(CourseForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
@@ -51,3 +52,9 @@ class CourseForm(forms.Form):
         submit_button = Submit('submit', 'Create course')
         submit_button.field_classes = 'btn btn-success'
         self.helper.add_input(submit_button)
+
+    def clean(self):
+        courses_num = self.user.groups.filter(name__startswith='faculty').count()
+        if courses_num >= 1:
+            raise forms.ValidationError("Courses limit reached")
+        return self.cleaned_data

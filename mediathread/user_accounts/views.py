@@ -125,6 +125,13 @@ class InviteStudentsView(FormView):
     form_class = InviteStudentsForm
     template_name = 'user_accounts/invite_students.html'
 
+    def get_form_kwargs(self):
+        kwargs = super(InviteStudentsView, self).get_form_kwargs()
+        kwargs.update({
+            'course': self.request.session['ccnmtl.courseaffils.course']
+        })
+        return kwargs
+
     def form_valid(self, form):
         course = self.request.session['ccnmtl.courseaffils.course']
         emails = form.cleaned_data['student_emails']
@@ -163,6 +170,7 @@ class InviteStudentsView(FormView):
                     user = signup_form.save(self.request)
                     course.group.user_set.add(user)
                     send_email_confirmation(self.request, user, True)
+
             if user:
                 cio.track(
                     customer_id=user.email,
@@ -175,6 +183,11 @@ class InviteStudentsView(FormView):
         student_count = len(emails)
         if student_count > 0:
             self.request.session['no_students'] = False
+
+        # update the remaining number of invites
+        course.course_information.invites_left -= student_count
+        course.course_information.save()
+
         analytics.track(
             self.request.user.email,
             "Invited students",
@@ -191,7 +204,9 @@ class InviteStudentsView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(InviteStudentsView, self).get_context_data(**kwargs)
-        context['course_name'] = self.request.session['ccnmtl.courseaffils.course']
+        course = self.request.session['ccnmtl.courseaffils.course']
+        context['course_name'] = course
+        context['invites_left'] = course.course_information.invites_left
         return context
 
     def get_initial(self):

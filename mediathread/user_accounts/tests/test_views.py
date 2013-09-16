@@ -11,8 +11,6 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from courseaffils.models import Course
-from mediathread.user_accounts import autocomplete_light_registry
-from mediathread.user_accounts import forms
 
 mock_customerio = MagicMock(spec=CustomerIO)
 mock_analytics = MagicMock(spec=analytics)
@@ -22,7 +20,7 @@ mock_analytics = MagicMock(spec=analytics)
 @patch("analytics.track", mock_analytics)
 @patch("customerio.CustomerIO", mock_customerio)
 class InviteStudentsTest(TestCase):
-    fixtures = ['unittest_sample_course.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
@@ -121,6 +119,26 @@ class InviteStudentsTest(TestCase):
         self.assertFormError(response, 'form', 'email_from', 'This field is required.')
         self.assertFormError(response, 'form', 'student_emails', 'This field is required.')
         self.assertFormError(response, 'form', 'message', 'This field is required.')
+
+    def test_show_call_to_action_when_1_invite_left(self):
+        """
+        Show a call to action for inviting more students when user has only 1 or 0 invite(s) left
+        """
+        self.client.logout()
+        self.client.login(username="test_instructor_alt", password="test")
+        course = Course.objects.get(pk=2)
+        session = self.client.session
+        session['ccnmtl.courseaffils.course'] = course
+        session.save()
+        response = self.client.get(reverse("invite-students"))
+        self.assertContains(response, "Click here to upgrade to a larger plan")
+
+    def test_dont_show_call_to_action_with_multiple_invites_remaining(self):
+        """
+        Don't show a call to action for inviting more students when user has more than 1 invite left
+        """
+        response = self.client.get(reverse("invite-students"))
+        self.assertNotContains(response, "Click here to upgrade to a larger plan")
 
 
 @patch("analytics.identify", mock_analytics)

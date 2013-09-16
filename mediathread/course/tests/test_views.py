@@ -6,6 +6,7 @@ from django.test import TestCase
 from courseaffils.models import Course
 from django.test.utils import override_settings
 from mock import MagicMock, patch
+from mediathread.course.models import CourseInformation
 
 mock_analytics = MagicMock(spec=analytics)
 
@@ -13,16 +14,14 @@ mock_analytics = MagicMock(spec=analytics)
 @patch("analytics.identify", mock_analytics)
 @patch("analytics.track", mock_analytics)
 class CourseCreateTest(TestCase):
-    fixtures = ['unittest_sample_course.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
-
-    def test_page_shows_the_form(self):
-        response = self.client.get(reverse("course_create"))
-        self.assertContains(response, "form", status_code=200)
+        self.user = User.objects.get(username="test_instructor")
 
     def test_create_first_course(self):
+        self.user.groups.clear()
         response = self.client.post(reverse("course_create"), {
             'title': "Sample course #1",
             'organization': "Test organization",
@@ -39,6 +38,7 @@ class CourseCreateTest(TestCase):
         self.assertEquals(1, course.info.term)
 
     def test_missing_form_fields(self):
+        self.user.groups.clear()
         response = self.client.post(reverse("course_create"), {
             'title': "",
             'organization': "",
@@ -46,6 +46,26 @@ class CourseCreateTest(TestCase):
         })
         self.assertFormError(response, 'form', 'title', 'This field is required.')
         self.assertFormError(response, 'form', 'organization', 'This field is required.')
+
+    def test_show_call_to_action_when_no_courses_left(self):
+        """
+        Show a call to action for upgrading to a bigger plan when they have no courses left
+        """
+        ci = CourseInformation.objects.create(title="test", organization_name="test_org", student_amount=10)
+        ci.add_member(self.user, faculty=True)
+        response = self.client.get(reverse("course_create"))
+        self.assertContains(response, "You've used your available courses on this plan")
+        self.assertContains(response, "<h1>Courses limit reached!</h1>")
+
+    def test_dont_show_call_to_action_when_no_course_is_created(self):
+        """
+        Don't show a call to action for inviting more students when user has more than 1 invite left
+        """
+        self.user.groups.clear()
+        response = self.client.get(reverse("course_create"))
+        self.assertContains(response, "form", status_code=200)
+        self.assertNotContains(response, "You've used your available courses on this plan")
+        self.assertNotContains(response, "<h1>Courses limit reached!</h1>")
 
 
 class MemberListTest(TestCase):

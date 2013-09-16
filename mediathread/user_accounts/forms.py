@@ -3,6 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
 from django.contrib.auth.forms import SetPasswordForm
 from django import forms
+from django.template.defaultfilters import pluralize
 from django.utils.safestring import mark_safe
 from .models import RegistrationModel, OrganizationModel
 
@@ -71,6 +72,7 @@ class InviteStudentsForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        self.course = kwargs.pop('course', None)
         super(InviteStudentsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
@@ -87,6 +89,14 @@ class InviteStudentsForm(forms.Form):
                 emails.append(email.strip())
             else:
                 raise forms.ValidationError("Error in an email address")
+        invites_left = self.course.course_information.invites_left
+        invited_students_count = len(emails)
+        if invited_students_count > invites_left:
+            raise forms.ValidationError(
+                mark_safe("You exceeded your available number of invitations!<br/> You have "
+                          "{0} available invite{1}, but you tried to invite {2} students, "
+                          '<a href="http://getmediathread.com/plans.html">click here</a> to upgrade to a larger plan.'.format(
+                          invites_left, pluralize(invites_left), invited_students_count)))
         return emails
 
 

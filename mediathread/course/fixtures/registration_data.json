@@ -58,5 +58,23 @@
       "primary": true,
       "email": "test_intructor@two.com"
     }
+  },
+    {
+    "pk": 1,
+    "model": "course.courseinformation",
+    "fields": {
+      "student_amount": 10,
+      "course": 1,
+      "invites_left": 10
+    }
+  },
+    {
+    "pk": 2,
+    "model": "course.courseinformation",
+    "fields": {
+      "student_amount": 10,
+      "course": 2,
+      "invites_left": 1
+    }
   }
 ]

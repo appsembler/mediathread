@@ -55,13 +55,12 @@
                 <div id="standardnav_container">
                 {% block call_to_action %}
                     {% if request.session.no_students and request.user.is_authenticated and request.course %}
-                        <div id="call-to-action">
-                            <h2>You haven't invited any students to this course. Click here to invite them: </h2><button class="btn btn-success">Invite students</button>
+                        <div class="call-to-action">
+                            <h2>You haven't invited any students to this course. Click here to invite them: </h2><a class="btn btn-success" href="{% url invite-students %}">Invite students</a>
                         </div>
-                    {% endif %}
-                    {% if not request.session.courses_created and request.user.is_authenticated %}
-                        <div id="call-to-action">
-                            <h2>Want to create your own course? Click here:</h2><a href="http://appsembler.wufoo.com/forms/z7p9k5/" class="btn btn-success" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create course</a>
+                    {% elif not request.session.courses_created and request.user.is_authenticated %}
+                        <div class="call-to-action">
+                            <h2>Want to create your own course? Click here:</h2><a href="{% url course_create %}" class="btn btn-success">Create course</a>
                         </div>
                     {% endif %}
                 {% endblock call_to_action %}
@@ -94,7 +93,7 @@
                                     {% if user_courses > 1 or user.is_staff %}
                                         <a href="/?unset_course">Switch Course</a>
                                     {% endif %}
-                                    <a href="http://appsembler.wufoo.com/forms/z7p9k5/" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create course</a>
+                                    <a href="{% url course_create %}" >Create course</a>
                                         
                                     <a href="/accounts/logout/">Log Out</a>
                                 </div>

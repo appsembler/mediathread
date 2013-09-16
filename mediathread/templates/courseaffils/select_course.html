@@ -44,7 +44,7 @@
     </div>
     <div id="create-course-container">
         {% if add_privilege %}
-            <a id="create-course" class="create-course" href="http://appsembler.wufoo.com/forms/z7p9k5/" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create new course</a>
+            <a id="create-course" class="create-course" href="{% url course_create %}">Create new course</a>
         {% endif %}
     </div>
 </div>

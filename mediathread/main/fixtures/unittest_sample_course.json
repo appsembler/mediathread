@@ -12,7 +12,7 @@
         "pk": 1, 
         "model": "auth.group", 
         "fields": {
-            "name": "Sample_Course_Faculty", 
+            "name": "Sample_Course_Faculty",
             "permissions": [
                 34, 
                 35, 
@@ -107,7 +107,7 @@
         "pk": 2, 
         "model": "auth.group", 
         "fields": {
-            "name": "Sample_Course_Students", 
+            "name": "Sample_Course_Students",
             "permissions": []
         }
     }, 
@@ -115,7 +115,7 @@
         "pk": 3, 
         "model": "auth.group", 
         "fields": {
-            "name": "Alternate Course Members", 
+            "name": "Alternate Course Members",
             "permissions": []
         }
     }, 
@@ -123,7 +123,7 @@
         "pk": 4, 
         "model": "auth.group", 
         "fields": {
-            "name": "Alternate Course Faculty", 
+            "name": "Alternate Course Faculty",
             "permissions": []
         }
     }, 

@@ -4,7 +4,7 @@ from courseaffils.models import CourseInfo
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -146,7 +146,20 @@ class CourseCreateFormView(FormView):
 
     @method_decorator(login_required)
     def get(self, *args, **kwargs):
+        self.request.session.pop('ccnmtl.courseaffils.course', None)
         return super(CourseCreateFormView, self).get(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(CourseCreateFormView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseCreateFormView, self).get_context_data(**kwargs)
+        courses_num = self.request.user.groups.filter(name__startswith='faculty').count()
+        if courses_num >= 1:
+            context['limit_reached'] = True
+        return context
 
     def form_valid(self, form):
         # preparing data

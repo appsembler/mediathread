@@ -4590,20 +4590,24 @@ form .form-actions {
     margin: 0 10px;
 }
 
-#call-to-action {
+.call-to-action {
     text-align: center;
     padding: 10px 0;
     background-color: #1E77BD;
 }
 
-#call-to-action h2 {
+.call-to-action-warning {
+    background-color: #CA2027;
+}
+
+.call-to-action h2 {
     margin: 0;
     color: white;
     display: inline;
     vertical-align: middle;
 }
 
-#call-to-action a {
+.call-to-action a {
     vertical-align: middle;
     margin-left: 15px;
     color: #FFF;
@@ -4622,6 +4626,13 @@ a.btn {
 
 a.btn-success {
     color: #FFF;
+}
+
+.remaining-invites {
+    color: #D33;
+    font-size: 18px;
+    padding-left: 30px;
+
 }
 
 .no-courses-div a {
