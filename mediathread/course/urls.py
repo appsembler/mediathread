@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'resend-invite/$', resend_invite, name='resend_invite'),
     url(r'remove-student/$', remove_student, name='remove_student'),
     url(r'demote-faculty/$', demote_faculty, name='demote_faculty'),
+    url(r'join-sample-course/$', join_sample_course, name='join_sample_course'),
 )

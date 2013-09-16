@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block call_to_action %}
+{% comment %}
+Disable the "create course" call to action on this page since we already have a button for that.
+{% endcomment %}
+{% endblock %}
+
+{% block content %}
+    <div style="" class="no-courses-div">
+        <h1>We noticed you're not enrolled in any courses!</h1>
+        <h3>Here are the two options you have:</h3>
+        <a class="btn btn-large btn-success" href="http://appsembler.wufoo.com/forms/z7p9k5/" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create a course</a>
+        <a class="btn btn-large" href="{% url join_sample_course %}">Enroll in sample course</a>
+        <p>Don't worry, you can always enroll in a sample course later!</p>
+
+        {% if add_privilege %}
+            <p>
+                <a href="{% url admin:courseaffils_course_add %}">Create a course</a>
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

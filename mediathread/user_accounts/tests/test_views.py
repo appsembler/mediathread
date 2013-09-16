@@ -158,5 +158,3 @@ class RegistrationTest(TestCase):
             email_address__email="testmediathread@appsembler.com").count(), 1)
         self.assertEquals(EmailAddress.objects.filter(
             email="testmediathread@appsembler.com", verified=False).count(), 1)
-        sample_course = Course.objects.get(id=settings.SAMPLE_COURSE_ID)
-        self.assertTrue(user.id in sample_course.group.user_set.values_list('id', flat=True))

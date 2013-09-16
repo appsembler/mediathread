@@ -1,6 +1,7 @@
 import analytics
 from allauth.account.models import EmailAddress
 from courseaffils.models import CourseInfo
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -8,11 +9,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django.views.generic.edit import FormView
 
+from braces.views import LoginRequiredMixin
 from mediathread.user_accounts.models import RegistrationModel
-from .models import CourseInformation
+from .models import Course, CourseInformation
 from .forms import CourseForm, MemberActionForm
 
 
@@ -205,3 +207,18 @@ class CourseCreateFormView(FormView):
 
 
 course_create = CourseCreateFormView.as_view()
+
+
+class JoinSampleCourseView(LoginRequiredMixin, RedirectView):
+    url = '/'
+
+    def get(self, request, *args, **kwargs):
+        course = Course.objects.get(id=settings.SAMPLE_COURSE_ID)
+        try:
+            course.user_set.get(id=request.user.id)
+        except User.DoesNotExist:
+            course.group.user_set.add(request.user)
+        request.session['ccnmtl.courseaffils.course'] = course
+        return super(JoinSampleCourseView, self).get(request, *args, **kwargs)
+
+join_sample_course = JoinSampleCourseView.as_view()

@@ -4609,3 +4609,21 @@ form .form-actions {
     color: #FFF;
     font-weight: normal;
 }
+
+.no-courses-div {
+    margin: 50px auto 0;
+    text-align: center;
+}
+
+a.btn {
+    font-weight: 400;
+    color: #444;
+}
+
+a.btn-success {
+    color: #FFF;
+}
+
+.no-courses-div a {
+    margin: 10px 15px 0;
+}

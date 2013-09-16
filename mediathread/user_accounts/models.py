@@ -52,10 +52,6 @@ class RegistrationModel(models.Model):
             signup_user.last_name = last_name
             signup_user.save()
 
-            sample_course = Course.objects.get(id=settings.SAMPLE_COURSE_ID)
-            sample_course.group.user_set.add(signup_user)
-            sample_course.faculty_group.user_set.add(signup_user)
-
             organization, created = OrganizationModel.objects.get_or_create(name=organization)
             self.organization = organization
             self.user = signup_user

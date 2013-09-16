@@ -53,16 +53,18 @@
         	<div id="header">
     
                 <div id="standardnav_container">
-                {% if request.session.no_students and request.user.is_authenticated and request.course %}
-                    <div id="call-to-action">
-                        <h2>You haven't invited any students to this course. Click here to invite them: </h2><button class="btn btn-success">Invite students</button>
-                    </div>
-                {% endif %}
-                {% if not request.session.courses_created and request.user.is_authenticated %}
-                    <div id="call-to-action">
-                        <h2>Want to create your own course? Click here:</h2><a href="http://appsembler.wufoo.com/forms/z7p9k5/" class="btn btn-success" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create course</a>
-                    </div>
-                {% endif %}
+                {% block call_to_action %}
+                    {% if request.session.no_students and request.user.is_authenticated and request.course %}
+                        <div id="call-to-action">
+                            <h2>You haven't invited any students to this course. Click here to invite them: </h2><button class="btn btn-success">Invite students</button>
+                        </div>
+                    {% endif %}
+                    {% if not request.session.courses_created and request.user.is_authenticated %}
+                        <div id="call-to-action">
+                            <h2>Want to create your own course? Click here:</h2><a href="http://appsembler.wufoo.com/forms/z7p9k5/" class="btn btn-success" onclick="window.open(this.href,  null, 'height=1081, width=680, toolbar=0, location=0, status=1, scrollbars=1, resizable=1'); return false">Create course</a>
+                        </div>
+                    {% endif %}
+                {% endblock call_to_action %}
                 <div id="mediathread_logo">
                     <a href="/">
                         <img src="{% static 'img/logo_mediathread_new.png' %}" alt="mediathread logo" width="156" height="45"/>

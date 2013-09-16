@@ -15,8 +15,8 @@ from allauth.account import app_settings
 from allauth.account.views import ConfirmEmailView as AllauthConfirmEmailView
 from allauth.account.views import LoginView as AllauthLoginView
 from courseaffils.models import Course
-from .forms import InviteStudentsForm, RegistrationForm
 from mediathread.user_accounts.models import RegistrationModel
+from .forms import InviteStudentsForm, RegistrationForm
 
 
 def login_user(request, user):
@@ -38,7 +38,7 @@ def login_user(request, user):
 class LoginView(AllauthLoginView):
     def form_valid(self, form):
         response = super(LoginView, self).form_valid(form)
-        # check if professor is only in faculty group of sample course or in no course at all
+        # check if the user is a professor and is only in faculty group of sample course or in no course at all
         registration_model_exists = RegistrationModel.objects.filter(user=form.user).exists()
         sample_course_faculty_group_id = Course.objects.get(id=settings.SAMPLE_COURSE_ID).faculty_group_id
         created_courses = Group.objects.exclude(
@@ -60,10 +60,10 @@ class ConfirmEmailView(AllauthConfirmEmailView):
     """
     def post(self, *args, **kwargs):
         # perform login
-        email_address = self.get_object().email_address
-        user_to_login = User.objects.get(email=email_address.email)
+        email_address_object = self.get_object().email_address
+        user_to_login = User.objects.get(email=email_address_object.email)
         login_user(self.request, user_to_login)
-        analytics.track(email_address, "Activated account")
+        analytics.track(email_address_object.email, "Activated account")
         messages.success(self.request, "You've successfully activated your account.", fail_silently=True)
         return super(ConfirmEmailView, self).post(*args, **kwargs)
 
