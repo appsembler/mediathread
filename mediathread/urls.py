@@ -50,6 +50,7 @@ auth_urls = (r'^accounts/', include('allauth.urls'))
 urlpatterns = patterns(
     '',
 
+    (r'^avatar/', include('avatar.urls')),
     (r'^about/$', 'django.views.generic.simple.redirect_to', {'url': settings.ABOUT_URL}),
     (r'^help/$', 'django.views.generic.simple.redirect_to', {'url': settings.HELP_URL}),
     (r'^terms-of-use/$', direct_to_template,

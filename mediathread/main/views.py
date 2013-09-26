@@ -30,7 +30,8 @@ def django_settings(request):
                  'REVISION',
                  'DATABASES',
                  'GOOGLE_ANALYTICS_ID',
-                 'SEGMENTIO_JS_KEY'
+                 'SEGMENTIO_JS_KEY',
+                 'PLANS_PAGE_URL'
                  ]
 
     rv = {'settings': dict([(k, getattr(settings, k, None))

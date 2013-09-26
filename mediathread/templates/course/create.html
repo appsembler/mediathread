@@ -10,7 +10,7 @@
 {% block call_to_action %}
     {% if request.user.is_authenticated and limit_reached %}
         <div class="call-to-action call-to-action-warning">
-            <h2>You've used your available courses on this plan. Click here to upgrade to a larger plan: </h2><a class="btn btn-success" href="http://getmediathread.com/plans.html">Upgrade</a>
+            <h2>You've used your available courses on this plan. Click here to upgrade to a larger plan: </h2><a class="btn btn-success" href="{{ settings.PLANS_PAGE_URL }}">Upgrade</a>
         </div>
     {% endif %}
 {% endblock %}
@@ -19,7 +19,7 @@
 {% if limit_reached %}
     <h1>Courses limit reached!</h1>
     <p>You've reached the number of available courses to create on this plan. <a
-            href="http://getmediathread.com/plans.html">Click here</a> to upgrade to a larger plan.</p>
+            href="{{ settings.PLANS_PAGE_URL }}">Click here</a> to upgrade to a larger plan.</p>
 {% else %}
     <div class="invite-students-form">
     <h2 class="title">Create a course</h2>

@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from courseaffils.models import Course
+from mediathread.user_accounts.models import UserProfile
 
 mock_customerio = MagicMock(spec=CustomerIO)
 mock_analytics = MagicMock(spec=analytics)
@@ -20,7 +21,7 @@ mock_analytics = MagicMock(spec=analytics)
 @patch("analytics.track", mock_analytics)
 @patch("customerio.CustomerIO", mock_customerio)
 class InviteStudentsTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
@@ -144,7 +145,7 @@ class InviteStudentsTest(TestCase):
 @patch("analytics.identify", mock_analytics)
 @patch("analytics.track", mock_analytics)
 class RegistrationTest(TestCase):
-    fixtures = ['unittest_sample_course.json']
+    fixtures = ['unittest_sample_course.json', 'user_profiles.json']
 
     def setUp(self):
         self.post_params = {
@@ -155,7 +156,7 @@ class RegistrationTest(TestCase):
             'position_title': 'professor',
             'subscribe_to_newsletter': 'on',
             'hear_mediathread_from': 'conference',
-            'agree_to_term': 'on',
+            'agree_to_terms': 'on',
             'organization': 'TestCompany',
         }
 
@@ -172,7 +173,22 @@ class RegistrationTest(TestCase):
         user = User.objects.get(email="testmediathread@appsembler.com")
         self.assertEquals(user.get_full_name(), "Appsembler Rocks")
         self.assertEqual(len(mail.outbox), 1)
+        self.assertEquals(UserProfile.objects.filter(user=user).count(), 1)
         self.assertEquals(EmailConfirmation.objects.filter(
             email_address__email="testmediathread@appsembler.com").count(), 1)
         self.assertEquals(EmailAddress.objects.filter(
             email="testmediathread@appsembler.com", verified=False).count(), 1)
+
+    def test_missing_form_fields(self):
+        response = self.client.post(reverse("registration-form"), {
+            'email': '',
+            'password': '',
+            'first_name': '',
+            'last_name': ''
+        }, follow=True)
+        self.assertFormError(response, 'form', 'email', 'This field is required.')
+        self.assertFormError(response, 'form', 'password', 'This field is required.')
+        self.assertFormError(response, 'form', 'first_name', 'This field is required.')
+        self.assertFormError(response, 'form', 'last_name', 'This field is required.')
+        self.assertFormError(response, 'form', 'organization', 'This field is required.')
+        self.assertFormError(response, 'form', 'agree_to_terms', 'This field is required.')

@@ -14,7 +14,7 @@ mock_analytics = MagicMock(spec=analytics)
 @patch("analytics.identify", mock_analytics)
 @patch("analytics.track", mock_analytics)
 class CourseCreateTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
@@ -69,7 +69,7 @@ class CourseCreateTest(TestCase):
 
 
 class MemberListTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
@@ -83,7 +83,7 @@ class MemberListTest(TestCase):
 
 
 class PromoteStudentTest(TestCase):
-    fixtures = ['unittest_sample_course.json']
+    fixtures = ['unittest_sample_course.json', 'user_profiles.json']
 
     @patch("analytics.identify", mock_analytics)
     def test_promote_student(self):
@@ -112,7 +112,7 @@ class PromoteStudentTest(TestCase):
 
 
 class ResendInviteTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def setUp(self):
         self.client.login(username="test_instructor", password="test")
@@ -136,7 +136,7 @@ class ResendInviteTest(TestCase):
 
 
 class RemoveStudentTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def test_remove_student(self):
         self.client.login(username="test_instructor", password="test")
@@ -167,7 +167,7 @@ class RemoveStudentTest(TestCase):
 
 
 class DemoteFacultyTest(TestCase):
-    fixtures = ['unittest_sample_course.json', 'registration_data.json']
+    fixtures = ['unittest_sample_course.json', 'registration_data.json', 'user_profiles.json']
 
     def test_demote_faculty(self):
         self.client.login(username="test_instructor", password="test")
@@ -198,7 +198,7 @@ class DemoteFacultyTest(TestCase):
 
 
 class NoCoursesTest(TestCase):
-    fixtures = ['unittest_sample_course.json']
+    fixtures = ['unittest_sample_course.json', 'user_profiles.json']
 
     def setUp(self):
         self.user = User.objects.create_user(username="test_test", email="test@something.com", password="test")

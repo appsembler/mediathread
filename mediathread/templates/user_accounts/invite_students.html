@@ -6,7 +6,7 @@
 {% block call_to_action %}
     {% if request.user.is_authenticated and request.course and invites_left == 1 %}
         <div class="call-to-action">
-            <h2>We notice you're close to your invites limit. Click here to upgrade to a larger plan: </h2><a class="btn btn-success" href="http://getmediathread.com/plans.html">Upgrade</a>
+            <h2>We notice you're close to your invites limit. Click here to upgrade to a larger plan: </h2><a class="btn btn-success" href="{{ settings.PLANS_PAGE_URL }}">Upgrade</a>
         </div>
     {% endif %}
 {% endblock %}
@@ -14,7 +14,8 @@
 {% block content %}
 {% if invites_left == 0 %}
 <h1>No invites left!</h1>
-<p>You have no invites left on your current plan. If you want to invite more students, <a href="http://getmediathread.com/plans.html">click here</a> to upgrade to a bigger plan!</p>
+<p>You have no invites left on your current plan. If you want to invite more students, click the button below to upgrade your plan!</p>
+<a href="{{ settings.PLANS_PAGE_URL }}" class="btn btn-success btn-large">Upgrade your plan</a>
 {% else %} 
     <div class="invite-students-form">
         <h2 class="title">Invite students to your course</h2>

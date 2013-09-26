@@ -29,6 +29,12 @@ def add_email_to_mailchimp_list(email_address, list_id, test_client=None, **kwar
     return True
 
 
+def unsubscribe_user_from_list(email_address, list_id):
+    ms = mailchimp.Mailchimp(settings.MAILCHIMP_API_KEY)
+    ms.lists.unsubscribe(list_id, email_address)
+    return True
+
+
 def display_user(user):
     if user.first_name or user.last_name:
         return user.get_full_name()

@@ -13,7 +13,6 @@ from django.views.generic import TemplateView, RedirectView
 from django.views.generic.edit import FormView
 
 from braces.views import LoginRequiredMixin
-from mediathread.user_accounts.models import RegistrationModel
 from .models import Course, CourseInformation
 from .forms import CourseForm, MemberActionForm
 
@@ -212,10 +211,7 @@ class CourseCreateFormView(FormView):
 
     def get_initial(self):
         initial = self.initial.copy()
-        try:
-            initial['organization'] = self.request.user.registration_model.organization
-        except RegistrationModel.DoesNotExist:
-            pass
+        initial['organization'] = self.request.user.profile.organization
         return initial
 
 

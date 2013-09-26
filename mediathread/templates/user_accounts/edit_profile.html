@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load avatar_tags crispy_forms_tags static %}
+
+{% block title %}Edit Profile{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" />
+{% endblock %}
+
+{% block extrahead %}
+    {% include "autocomplete_light/static.html" %}
+{% endblock %}
+
+{% block content %}
+    <!-- avatar -->
+    <div>
+        <p><strong>Current Avatar</strong></p>
+    </div>
+    {% avatar user %}
+    <div>
+        <p><a href="{% url avatar_change %}">Change Avatar</a></p>
+    </div>
+
+    <!-- other fields -->
+    {% crispy form %}
+{% endblock content %}

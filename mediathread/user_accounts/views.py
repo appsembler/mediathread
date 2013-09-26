@@ -3,6 +3,7 @@ import customerio
 import textwrap
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import pluralize
@@ -15,8 +16,8 @@ from allauth.account import app_settings
 from allauth.account.views import ConfirmEmailView as AllauthConfirmEmailView
 from allauth.account.views import LoginView as AllauthLoginView
 from courseaffils.models import Course
-from mediathread.user_accounts.models import RegistrationModel
-from .forms import InviteStudentsForm, RegistrationForm
+from .forms import InviteStudentsForm, RegistrationForm, UserProfileForm
+from .models import OrganizationModel, UserProfile
 
 
 def login_user(request, user):
@@ -37,19 +38,27 @@ def login_user(request, user):
 
 class LoginView(AllauthLoginView):
     def form_valid(self, form):
+        # checks if the user has a default (dummypass) password so it can redirect it to the set password form
+        self.default_password = form.user.check_password("dummypass")
         response = super(LoginView, self).form_valid(form)
-        # check if the user is a professor and is only in faculty group of sample course or in no course at all
-        registration_model_exists = RegistrationModel.objects.filter(user=form.user).exists()
+        # check if the user is an instructor and is only in faculty group of sample course or in no course at all
+        is_instructor = form.user.profile.user_type == "instructor"
         sample_course_faculty_group_id = Course.objects.get(id=settings.SAMPLE_COURSE_ID).faculty_group_id
         created_courses = Group.objects.exclude(
             id=sample_course_faculty_group_id).filter(user=form.user, name__startswith="faculty_").exists()
 
         # logs to the session,whether the user has created any courses, needed for call to action middleware
-        if registration_model_exists and not created_courses:
+        if is_instructor and not created_courses:
             self.request.session['courses_created'] = False
         else:
             self.request.session['courses_created'] = True
         return response
+
+    def get_success_url(self):
+        url = "/"
+        if self.default_password:
+            url = reverse("set_password")
+        return url
 
 login_view = LoginView.as_view()
 
@@ -71,6 +80,75 @@ class ConfirmEmailView(AllauthConfirmEmailView):
 confirm_email_view = ConfirmEmailView.as_view()
 
 
+class UserProfileView(FormView):
+    """
+    View for creating and updating profile data
+    """
+    form_class = UserProfileForm
+    success_url = '/'
+    template_name = 'user_accounts/edit_profile.html'
+
+    def get_initial(self):
+        user = self.request.user
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        if profile.organization:
+            organization_value = profile.organization.name
+        else:
+            organization_value = None
+
+        return {
+            'organization': organization_value,
+            'position_title': profile.position_title,
+            'subscribe_to_newsletter': profile.subscribe_to_newsletter,
+            'first_name': user.first_name,
+            'last_name': user.last_name
+        }
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.save()
+
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        old_subscription_setting = profile.subscribe_to_newsletter
+
+        if form.cleaned_data['organization']:
+            profile.organization, created = OrganizationModel.objects.get_or_create(
+                name=form.cleaned_data['organization'])
+            profile.organization.save()
+            organization_name = profile.organization.name
+        else:
+            organization_name = ""
+
+        profile.position_title = form.cleaned_data['position_title']
+        profile.subscribe_to_newsletter = form.cleaned_data['subscribe_to_newsletter']
+        profile.save()
+
+        analytics.identify(
+            user.email,
+            {
+                'email': user.email,
+                'firstName': user.first_name,
+                'lastName': user.last_name,
+                'organization': organization_name,
+            }
+        )
+
+        #if the setting has changed, we'll do an API call to Mailchimp
+        if profile.subscribe_to_newsletter != old_subscription_setting:
+            if profile.subscribe_to_newsletter:
+                profile.newsletter_subscribe()
+            else:
+                profile.newsletter_unsubscribe()
+
+        messages.success(self.request, "You've successfully updated your user profile.", fail_silently=True)
+        return super(UserProfileView, self).form_valid(form)
+
+
+user_profile_view = login_required(UserProfileView.as_view())
+
+
 class RegistrationFormView(FormView):
     """
     View for registering new users to the application. Once the user enters
@@ -82,32 +160,45 @@ class RegistrationFormView(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        signup_params = {
+        signup_form = SignupForm({
+            'username': '',
             'email': form.cleaned_data['email'],
-            'password': form.cleaned_data['password'],
-            'organization': form.cleaned_data['organization'],
-            'first_name': form.cleaned_data['first_name'],
-            'last_name': form.cleaned_data['last_name']
-        }
-        registration = form.instance
-        success = registration.do_signup(self.request, **signup_params)
-        if not success:
-            signup_error = registration.get_form_errors()
-            if signup_error.has_key('password1'):
+            'password1': form.cleaned_data['password'],
+            'password2': form.cleaned_data['password'],
+        })
+
+        # if a new user is successfully created
+        if signup_form.is_valid():
+            signup_user = signup_form.save(self.request)
+            signup_user.first_name = form.cleaned_data['first_name']
+            signup_user.last_name = form.cleaned_data['last_name']
+            signup_user.save()
+
+            form.instance.user = signup_user
+            profile = form.save()
+
+            analytics.identify(
+                signup_user.email,
+                {
+                    'email': signup_user.email,
+                    'firstName': signup_user.first_name,
+                    'lastName': signup_user.last_name,
+                    'organization': profile.organization.name,
+                }
+            )
+            analytics.track(signup_user.email, "Registered")
+        else:
+            self.signupform_error_msg = signup_form.errors
+            signup_error = form.instance.get_form_errors()
+            if 'password1' in signup_error:
                 signup_error['password'] = signup_error['password1']
             form.errors.update(signup_error)
             return self.form_invalid(form)
-        registration.save()
 
-        # subscribe in mailchimp
-        if registration.subscribe_to_newsletter:
-            try:
-                registration.subscribe_mailchimp_list(
-                    settings.MAILCHIMP_REGISTRATION_LIST_ID)
-            except Exception as e:
-                print e
+        if profile.subscribe_to_newsletter:
+            profile.newsletter_subscribe()
 
-        return complete_signup(self.request, registration.get_user(),
+        return complete_signup(self.request, signup_user,
                                app_settings.EMAIL_VERIFICATION,
                                self.get_success_url())
 

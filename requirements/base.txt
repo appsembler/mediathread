@@ -73,3 +73,5 @@ requirements/src/boto-2.12.0.tar.gz
 requirements/src/pytz-2013d.tar.bz2
 requirements/src/Collectfast-0.1.11.tar.gz
 requirements/src/django-braces-1.2.2.tar.gz
+requirements/src/Pillow-2.1.0.zip
+requirements/src/django-avatar-2.0.tar.gz

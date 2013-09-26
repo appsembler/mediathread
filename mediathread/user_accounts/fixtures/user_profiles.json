@@ -1,0 +1,92 @@
+[
+    {
+        "pk": 1,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 1,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 2,
+            "position_title": "instructor",
+            "user_type": "instructor"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 3,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 4,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 5,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 6,
+            "position_title": "instructor",
+            "user_type": "instructor"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 7,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 8,
+            "position_title": "instructor",
+            "user_type": "instructor"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 9,
+            "position_title": "student",
+            "user_type": "student"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "user_accounts.userprofile",
+        "fields": {
+            "user": 10,
+            "position_title": "instructor",
+            "user_type": "instructor"
+        }
+    }
+]
