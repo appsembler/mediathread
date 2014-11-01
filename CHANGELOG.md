@@ -1,8 +1,8 @@
 # Changelog
 
-### 1.0.2
+### 1.0.4
 
-* restart nginx during deployment
+* fix for missing Flickr API keys in the bookmarklet on the upgrade bookmarklet page
 
 ### 1.0.3
 
